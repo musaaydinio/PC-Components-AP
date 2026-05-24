@@ -1,0 +1,6 @@
+@E_Ticaret_BitStore_HostAddress = http://localhost:5177
+
+GET {{E_Ticaret_BitStore_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
