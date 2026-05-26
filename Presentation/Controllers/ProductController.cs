@@ -1,4 +1,5 @@
 ﻿using Azure;
+using Entities.Exceptions;
 using Entities.Models;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
@@ -35,7 +36,7 @@ namespace Presentation.Controllers
             var product = s_manager.ProductServices
                 .GetOneProductById(id, false);
             if (product is null)
-                return NotFound();
+                throw new ProductNotFound(id);
             return Ok(product);
         }
 

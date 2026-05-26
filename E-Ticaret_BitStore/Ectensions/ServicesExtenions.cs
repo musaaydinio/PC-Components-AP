@@ -19,5 +19,7 @@ namespace E_Ticaret_BitStore.Ectensions
 
         public static void ConfigureServiceManager(this IServiceCollection services) =>
             services.AddScoped<IServiceManager, ServicesManager>();
+        public static void ConfigureLoggerService(this IServiceCollection services) =>
+            services.AddSingleton<ILoggerServices, LoggerManager>();
     }
 }
