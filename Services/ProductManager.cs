@@ -1,4 +1,7 @@
-﻿using Entities.Models;
+﻿using AutoMapper;
+using Entities.DataTransferObject;
+using Entities.Exceptions;
+using Entities.Models;
 using Repository.Contracts;
 using Services.Contracts;
 using System.ComponentModel.DataAnnotations;
@@ -9,11 +12,12 @@ namespace Services
     {
         private readonly ILoggerServices _logger;
         private readonly IRepositoryManager _manager;
-
-        public ProductManager(IRepositoryManager manager,ILoggerServices logger)
+        private readonly IMapper _mapper;
+        public ProductManager(IRepositoryManager manager,ILoggerServices logger,IMapper mapper)
         {
             _logger = logger;
-            _manager = manager; 
+            _manager = manager;
+            _mapper = mapper;
         }
 
         public Product CreateOneProduct(Product product)
@@ -30,7 +34,7 @@ namespace Services
         {
             var entity = _manager.Product.GetProductById(id, trackChanges);
             if (entity is null)
-                throw new Exception($"Product with id:{id}could not found");
+                throw new ProductNotFoundException(id);
             _manager.Product.DeleteOneProduct(entity);
             _manager.Save();
         }
@@ -42,20 +46,20 @@ namespace Services
 
         public Product GetOneProductById(int id, bool trackChanges)
         {
-            return _manager.Product.GetProductById(id, trackChanges);
+            var product= _manager.Product.GetProductById(id, trackChanges);
+            if(product is null)
+                throw new ProductNotFoundException(id);
+            return product;
         }
 
-        public void UpdateOneProduct(int id, Product product, bool trackChanges)
+        public void UpdateOneProduct(int id, ProductDtoForUpdate productDto, bool trackChanges)
         {
             var entity=_manager.Product.GetProductById(id, trackChanges);
             if(entity is null)
-                throw new Exception($"Product with id:{id}could not found");
-            if(product is null)
-                throw new ArgumentNullException(nameof(product));
-            entity.Name = product.Name;
-            entity.Price = product.Price;
-            entity.StockQuantity = product.StockQuantity;
+                throw new ProductNotFoundException(id);
 
+            entity=_mapper.Map<Product>(productDto);
+            
             _manager.Product.Update(entity);
             _manager.Save();
         }

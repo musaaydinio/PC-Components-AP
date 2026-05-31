@@ -16,3 +16,21 @@
 2026-05-26 14:29:58.2429 Info Configuration initialized: Targets=0, ConfigItems=1, AutoReload=true, FilePath=C:\Users\hp\Desktop\WEB API PROJELER\E-Ticaret_BitStore\E-Ticaret_BitStore\nlog.config
 2026-05-26 14:30:13.2984 Info AppDomain Shutting down. LogFactory closing...
 2026-05-26 14:30:13.2984 Info LogFactory has been disposed.
+2026-05-31 22:32:14.0566 Warn Error has been raised. Exception: NLog.NLogConfigurationException: Unrecognized element 'targets(Name=LOgfile)' in section 'targets'
+2026-05-31 22:32:14.0655 Warn Error has been raised. Exception: NLog.NLogConfigurationException: Unrecognized value 'wriTo'='logfile' for element 'logger' in section 'rules'
+2026-05-31 22:32:14.0655 Info NLog, Version=6.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 6.1.3.5285. Product version: 6.1.3+7f18a90739535f5ddc71c48e0fa28c59e5ee8969. GlobalAssemblyCache: False
+2026-05-31 22:32:14.0959 Info Configuration initialized: Targets=0, ConfigItems=1, AutoReload=true, FilePath=C:\Users\hp\Desktop\WEB API PROJELER\E-Ticaret_BitStore\E-Ticaret_BitStore\nlog.config
+2026-05-31 22:32:30.5831 Info AppDomain Shutting down. LogFactory closing...
+2026-05-31 22:32:30.5831 Info LogFactory has been disposed.
+2026-05-31 22:36:10.2139 Warn Error has been raised. Exception: NLog.NLogConfigurationException: Unrecognized element 'targets(Name=LOgfile)' in section 'targets'
+2026-05-31 22:36:10.2139 Warn Error has been raised. Exception: NLog.NLogConfigurationException: Unrecognized value 'wriTo'='logfile' for element 'logger' in section 'rules'
+2026-05-31 22:36:10.2139 Info NLog, Version=6.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 6.1.3.5285. Product version: 6.1.3+7f18a90739535f5ddc71c48e0fa28c59e5ee8969. GlobalAssemblyCache: False
+2026-05-31 22:36:10.2443 Info Configuration initialized: Targets=0, ConfigItems=1, AutoReload=true, FilePath=C:\Users\hp\Desktop\WEB API PROJELER\E-Ticaret_BitStore\E-Ticaret_BitStore\nlog.config
+2026-05-31 22:37:07.8294 Warn Error has been raised. Exception: NLog.NLogConfigurationException: Unrecognized element 'targets(Name=LOgfile)' in section 'targets'
+2026-05-31 22:37:07.8294 Warn Error has been raised. Exception: NLog.NLogConfigurationException: Unrecognized value 'wriTo'='logfile' for element 'logger' in section 'rules'
+2026-05-31 22:37:07.8412 Info NLog, Version=6.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 6.1.3.5285. Product version: 6.1.3+7f18a90739535f5ddc71c48e0fa28c59e5ee8969. GlobalAssemblyCache: False
+2026-05-31 22:37:07.8573 Info Configuration initialized: Targets=0, ConfigItems=1, AutoReload=true, FilePath=C:\Users\hp\Desktop\WEB API PROJELER\E-Ticaret_BitStore\E-Ticaret_BitStore\nlog.config
+2026-05-31 23:00:09.7183 Warn Error has been raised. Exception: NLog.NLogConfigurationException: Unrecognized element 'targets(Name=LOgfile)' in section 'targets'
+2026-05-31 23:00:09.7320 Warn Error has been raised. Exception: NLog.NLogConfigurationException: Unrecognized value 'wriTo'='logfile' for element 'logger' in section 'rules'
+2026-05-31 23:00:09.7320 Info NLog, Version=6.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 6.1.3.5285. Product version: 6.1.3+7f18a90739535f5ddc71c48e0fa28c59e5ee8969. GlobalAssemblyCache: False
+2026-05-31 23:00:09.7714 Info Configuration initialized: Targets=0, ConfigItems=1, AutoReload=true, FilePath=C:\Users\hp\Desktop\WEB API PROJELER\E-Ticaret_BitStore\E-Ticaret_BitStore\nlog.config
