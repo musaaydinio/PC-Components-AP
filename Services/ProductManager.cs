@@ -39,9 +39,10 @@ namespace Services
             _manager.Save();
         }
 
-        public IEnumerable<Product> GetAllProduct(bool trackChanges)
+        public IEnumerable<ProductDto> GetAllProduct(bool trackChanges)
         {
-            return _manager.Product.GetAllProduct(trackChanges);
+            var products= _manager.Product.GetAllProduct(trackChanges);
+            return _mapper.Map<IEnumerable<ProductDto>>(products);
         }
 
         public Product GetOneProductById(int id, bool trackChanges)

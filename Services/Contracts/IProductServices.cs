@@ -10,7 +10,7 @@ namespace Services.Contracts
 {
     public interface IProductServices
     {
-        IEnumerable<Product> GetAllProduct(bool trackChanges);
+        IEnumerable<ProductDto> GetAllProduct(bool trackChanges);
         Product GetOneProductById(int id, bool trackChanges);
         Product CreateOneProduct(Product product);
         void UpdateOneProduct(int id,ProductDtoForUpdate productDto,bool trackChanges);
