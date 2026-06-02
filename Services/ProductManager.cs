@@ -20,19 +20,17 @@ namespace Services
             _mapper = mapper;
         }
 
-        public Product CreateOneProduct(Product product)
-        {
-            if(product is null)
-                throw new ArgumentNullException(nameof(product));
-
-            _manager.Product.CreateOneProduct(product);
+        public ProductDto CreateOneProduct(ProductDtoForInsertion productDto)
+        {      
+            var entity= _mapper.Map<Product>(productDto);
+            _manager.Product.CreateOneProduct(entity);
             _manager.Save();
-            return product;
+            return _mapper.Map<ProductDto>(entity);
         }
 
         public void DeleteOneProduct(int id, bool trackChanges)
         {
-            var entity = _manager.Product.GetProductById(id, trackChanges);
+            var entity = _manager.Product.GetOneProductById(id, trackChanges);
             if (entity is null)
                 throw new ProductNotFoundException(id);
             _manager.Product.DeleteOneProduct(entity);
@@ -45,17 +43,34 @@ namespace Services
             return _mapper.Map<IEnumerable<ProductDto>>(products);
         }
 
-        public Product GetOneProductById(int id, bool trackChanges)
+        public ProductDto GetOneProductById(int id, bool trackChanges)
         {
-            var product= _manager.Product.GetProductById(id, trackChanges);
+            var product= _manager.Product.GetOneProductById(id, trackChanges);
             if(product is null)
                 throw new ProductNotFoundException(id);
-            return product;
+            return _mapper.Map<ProductDto>(product);
+        }
+
+        public (ProductDtoForUpdate productDtoForUpdate, Product product) GetOneProductForPatch(int id, bool trackChanges)
+        {
+            var product= _manager.Product.GetOneProductById(id, trackChanges);
+            if (product is null)
+                throw new ProductNotFoundException(id);
+
+            var productDtoForUpdate=_mapper.Map<ProductDtoForUpdate>(product);
+
+            return (productDtoForUpdate, product);  
+        }
+
+        public void SaveChangesForPatch(ProductDtoForUpdate productDtoForUpdate, Product product)
+        {
+            _mapper.Map(productDtoForUpdate, product);
+            _manager.Save();
         }
 
         public void UpdateOneProduct(int id, ProductDtoForUpdate productDto, bool trackChanges)
         {
-            var entity=_manager.Product.GetProductById(id, trackChanges);
+            var entity=_manager.Product.GetOneProductById(id, trackChanges);
             if(entity is null)
                 throw new ProductNotFoundException(id);
 

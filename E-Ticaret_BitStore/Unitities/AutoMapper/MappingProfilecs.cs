@@ -8,8 +8,9 @@ namespace E_Ticaret_BitStore.Unitities.AutoMapper
     {
         public MappingProfilecs()
         {
-            CreateMap<ProductDtoForUpdate, Product>();
+            CreateMap<ProductDtoForUpdate, Product>().ReverseMap();
             CreateMap<Product,ProductDto>();
+            CreateMap<ProductDtoForInsertion, Product>();
         }
     }
 }

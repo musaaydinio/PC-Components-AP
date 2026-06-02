@@ -11,9 +11,12 @@ namespace Services.Contracts
     public interface IProductServices
     {
         IEnumerable<ProductDto> GetAllProduct(bool trackChanges);
-        Product GetOneProductById(int id, bool trackChanges);
-        Product CreateOneProduct(Product product);
+        ProductDto GetOneProductById(int id, bool trackChanges);
+        ProductDto CreateOneProduct(ProductDtoForInsertion product);
         void UpdateOneProduct(int id,ProductDtoForUpdate productDto,bool trackChanges);
         void DeleteOneProduct(int id,bool trackChanges);
+
+        (ProductDtoForUpdate productDtoForUpdate, Product product) GetOneProductForPatch(int id, bool trackChanges);
+        void SaveChangesForPatch(ProductDtoForUpdate productDtoForUpdate,Product product);
     }
 }

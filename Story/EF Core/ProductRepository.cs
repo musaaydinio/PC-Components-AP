@@ -24,7 +24,7 @@ namespace Repository.EF_Core
 
         public IQueryable<Product> GetAllProduct(bool trackChanges) => FindAll(trackChanges);
 
-        public Product GetProductById(int id, bool trackChanges) => FindByCondition(b => b.Id.Equals(id), trackChanges).SingleOrDefault();
+        public Product GetOneProductById(int id, bool trackChanges) => FindByCondition(b => b.Id.Equals(id), trackChanges).SingleOrDefault();
         
 
         public void UpdateOneProduct(Product product)=>Update(product); 

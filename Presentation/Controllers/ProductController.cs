@@ -2,6 +2,7 @@
 using Entities.DataTransferObject;
 using Entities.Exceptions;
 using Entities.Models;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Services.Contracts;
@@ -42,11 +43,15 @@ namespace Presentation.Controllers
         }
 
         [HttpPost]
-        public IActionResult CreateOneProduct([FromBody] Product product)
+        public IActionResult CreateOneProduct([FromBody] ProductDtoForInsertion productDto)
         {
-            if (product is null)
+            if (productDto is null)
                 return BadRequest();
-            s_manager.ProductServices.CreateOneProduct(product);
+
+            if (!ModelState.IsValid)
+                return UnprocessableEntity(ModelState);
+
+            var product =s_manager.ProductServices.CreateOneProduct(productDto);
             return StatusCode(201, product);
         }
 
@@ -55,6 +60,9 @@ namespace Presentation.Controllers
         {
             if(productDto is null)
                 return BadRequest();
+
+            if(!ModelState.IsValid)
+                return UnprocessableEntity(ModelState);
 
             s_manager.ProductServices.UpdateOneProduct(id, productDto,true);
             return NoContent();
@@ -69,14 +77,22 @@ namespace Presentation.Controllers
 
         [HttpPatch("{id:int}")]
         public IActionResult PartiallyUpdateOneProduct([FromRoute(Name ="id")]int id,
-            [FromBody] JsonPatchDocument<Product> productPatch)
+            [FromBody] JsonPatchDocument<ProductDtoForUpdate> productPatch)
         {
-            var entity = s_manager.ProductServices
-                .GetOneProductById(id, true);
+            if(productPatch is null)
+                return BadRequest();
+
+            var result = s_manager.ProductServices.GetOneProductForPatch(id, false);           
             
-            productPatch.ApplyTo(entity);
-            s_manager.ProductServices.UpdateOneProduct(id,new ProductDtoForUpdate(
-                entity.Id,entity.Name,entity.Price,entity.StockQuantity),true);
+            productPatch.ApplyTo(result.productDtoForUpdate,ModelState);
+
+            TryValidateModel(result.productDtoForUpdate);
+
+            if(!ModelState.IsValid)
+                return UnprocessableEntity(ModelState);
+
+            s_manager.ProductServices.SaveChangesForPatch(result.productDtoForUpdate, result.product);
+           
             return NoContent();
         }
     }

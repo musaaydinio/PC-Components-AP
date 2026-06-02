@@ -1,4 +1,5 @@
 using E_Ticaret_BitStore.Ectensions;
+using Microsoft.AspNetCore.Mvc;
 using NLog;
 using Services.Contracts;
 
@@ -17,6 +18,11 @@ builder.Services.AddControllers(config =>
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 builder.Services.AddSwaggerGen();
+
+builder.Services.Configure<ApiBehaviorOptions>(options =>
+{
+    options.SuppressModelStateInvalidFilter = true;
+});
 
 builder.Services.ConfigureSqlContex(builder.Configuration);
 builder.Services.ConfigureRepositoryManager();
