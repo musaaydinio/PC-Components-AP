@@ -47,7 +47,8 @@ namespace Services
         {
             var product= _manager.Product.GetOneProductById(id, trackChanges);
             if(product is null)
-                throw new ProductNotFoundException(id);
+                throw new ProductNotFoundException(id)
+;
             return _mapper.Map<ProductDto>(product);
         }
 

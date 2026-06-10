@@ -1,7 +1,9 @@
 using E_Ticaret_BitStore.Ectensions;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using NLog;
 using Services.Contracts;
+using Story.EF_Core;
 
 var builder = WebApplication.CreateBuilder(args);
 

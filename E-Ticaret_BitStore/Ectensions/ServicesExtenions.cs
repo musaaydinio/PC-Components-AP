@@ -12,7 +12,8 @@ namespace E_Ticaret_BitStore.Ectensions
     {
         public static void ConfigureSqlContex(this IServiceCollection services,IConfiguration configuration)
         =>services.AddDbContext<StoreDbcontex>(options => options.UseSqlServer(configuration
-                .GetConnectionString("sqlConnection")));
+                .GetConnectionString("sqlConnection"),
+             b => b.MigrationsAssembly("Repository")));
 
         public static void ConfigureRepositoryManager(this IServiceCollection services) =>
             services.AddScoped<IRepositoryManager, RepositoryManager>();
