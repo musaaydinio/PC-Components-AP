@@ -12,7 +12,7 @@ namespace Entities.DataTransferObject
         [Required(ErrorMessage = "Ürün adı boş geçilemez.")]
         [MinLength(2, ErrorMessage = "Ürün adı en az 2 karakter olmalıdır.")]
         [MaxLength(100, ErrorMessage = "Ürün adı 100 karakteri geçemez.")]
-        public string Name { get; init; }
+        public required string Name { get; init; }
 
         [Required(ErrorMessage = "Fiyat bilgisi zorunludur.")]
         [Range(0.01, 500000, ErrorMessage = "Fiyat 0'dan büyük olmalıdır.")]

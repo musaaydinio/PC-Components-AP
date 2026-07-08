@@ -20,9 +20,9 @@ namespace Repository.EF_Core
         }
         public IProductRepository Product=> _productRepository.Value;
 
-        public void Save()
+        public async Task SaveAsync()
         {
-           _contex.SaveChanges();
+           await _contex.SaveChangesAsync();
         }
     }
 }

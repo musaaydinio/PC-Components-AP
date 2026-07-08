@@ -10,8 +10,8 @@ namespace Repository.Contracts
 {
     public interface IProductRepository : IRepositoryBase<Product>
     {
-        IQueryable<Product> GetAllProduct(bool trackChanges);
-        Product GetOneProductById(int id , bool trackChanges);
+        Task<IEnumerable<Product>> GetAllProductAsync(bool trackChanges);
+        Task<Product> GetOneProductByIdAsync(int id , bool trackChanges);
         void CreateOneProduct(Product product);
         void UpdateOneProduct(Product product);
         void DeleteOneProduct(Product product);  
