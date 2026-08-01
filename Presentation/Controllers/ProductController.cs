@@ -5,6 +5,7 @@ using Entities.Models;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
+using Presentation.ActionFilters;
 using Services.Contracts;
 using System;
 using System.Collections.Generic;
@@ -14,6 +15,7 @@ using System.Threading.Tasks;
 
 namespace Presentation.Controllers
 {
+    [ServiceFilter(typeof(LogFilterAttribute), Order =2)]
     [Route("api/[controller]")]
     [ApiController]
     public class ProductController : ControllerBase
@@ -41,28 +43,18 @@ namespace Presentation.Controllers
                 throw new ProductNotFoundException(id);
             return Ok(product);
         }
-
+        [ServiceFilter(typeof(ValidationFilterAttribute))]
         [HttpPost]
         public async Task<IActionResult> CreateOneProduct([FromBody] ProductDtoForInsertion productDto)
-        {
-            if (productDto is null)
-                return BadRequest();
-
-            if (!ModelState.IsValid)
-                return UnprocessableEntity(ModelState);
-
+        {         
             var product =await s_manager.ProductServices.CreateOneProductAsync(productDto);
             return StatusCode(201, product);
         }
-
+      
+        [ServiceFilter(typeof(ValidationFilterAttribute))]
         [HttpPut("{id:int}")]
         public async Task<IActionResult> UpdateOneProduct([FromRoute(Name ="id")] int id, [FromBody] ProductDtoForUpdate productDto)
-        {
-            if(productDto is null)
-                return BadRequest();
-
-            if(!ModelState.IsValid)
-                return UnprocessableEntity(ModelState);
+        {           
 
             await s_manager.ProductServices.UpdateOneProductAsync(id, productDto,true);
             return NoContent();

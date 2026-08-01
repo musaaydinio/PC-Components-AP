@@ -2,6 +2,7 @@ using E_Ticaret_BitStore.Ectensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using NLog;
+using Presentation.ActionFilters;
 using Services.Contracts;
 using Story.EF_Core;
 
@@ -17,6 +18,7 @@ builder.Services.AddControllers(config =>
 .AddXmlDataContractSerializerFormatters()
 .AddApplicationPart(typeof(Presentation.AssemblyReference).Assembly)
     .AddNewtonsoftJson();
+
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 builder.Services.AddSwaggerGen();
@@ -31,6 +33,7 @@ builder.Services.ConfigureRepositoryManager();
 builder.Services.ConfigureServiceManager();
 builder.Services.ConfigureLoggerService();
 builder.Services.AddAutoMapper(typeof(Program));
+builder.Services.ConfigureActionFilter();
 
 var app = builder.Build();
 

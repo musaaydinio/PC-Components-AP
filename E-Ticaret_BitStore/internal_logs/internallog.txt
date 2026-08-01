@@ -116,3 +116,20 @@
 2026-07-08 14:37:33.9553 Warn Error has been raised. Exception: NLog.NLogConfigurationException: Unrecognized value 'wriTo'='logfile' for element 'logger' in section 'rules'
 2026-07-08 14:37:33.9553 Info NLog, Version=6.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 6.1.3.5285. Product version: 6.1.3+7f18a90739535f5ddc71c48e0fa28c59e5ee8969. GlobalAssemblyCache: False
 2026-07-08 14:37:33.9829 Info Configuration initialized: Targets=0, ConfigItems=1, AutoReload=true, FilePath=C:\Users\hp\Desktop\WEB API PROJELER\E-Ticaret_BitStore\E-Ticaret_BitStore\nlog.config
+2026-07-31 19:26:22.0495 Warn Error has been raised. Exception: NLog.NLogConfigurationException: Unrecognized element 'targets(Name=LOgfile)' in section 'targets'
+2026-07-31 19:26:22.0616 Warn Error has been raised. Exception: NLog.NLogConfigurationException: Unrecognized value 'wriTo'='logfile' for element 'logger' in section 'rules'
+2026-07-31 19:26:22.0616 Info NLog, Version=6.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 6.1.3.5285. Product version: 6.1.3+7f18a90739535f5ddc71c48e0fa28c59e5ee8969. GlobalAssemblyCache: False
+2026-07-31 19:26:22.0867 Info Configuration initialized: Targets=0, ConfigItems=1, AutoReload=true, FilePath=C:\Users\hp\Desktop\WEB API PROJELER\E-Ticaret_BitStore\E-Ticaret_BitStore\nlog.config
+2026-07-31 19:26:31.9280 Info AppDomain Shutting down. LogFactory closing...
+2026-07-31 19:26:31.9280 Info LogFactory has been disposed.
+2026-07-31 19:29:17.7946 Warn Error has been raised. Exception: NLog.NLogConfigurationException: Unrecognized element 'targets(Name=LOgfile)' in section 'targets'
+2026-07-31 19:29:17.7946 Warn Error has been raised. Exception: NLog.NLogConfigurationException: Unrecognized value 'wriTo'='logfile' for element 'logger' in section 'rules'
+2026-07-31 19:29:17.8049 Info NLog, Version=6.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 6.1.3.5285. Product version: 6.1.3+7f18a90739535f5ddc71c48e0fa28c59e5ee8969. GlobalAssemblyCache: False
+2026-07-31 19:29:17.8208 Info Configuration initialized: Targets=0, ConfigItems=1, AutoReload=true, FilePath=C:\Users\hp\Desktop\WEB API PROJELER\E-Ticaret_BitStore\E-Ticaret_BitStore\nlog.config
+2026-07-31 19:29:45.9958 Info AppDomain Shutting down. LogFactory closing...
+2026-07-31 19:29:45.9958 Info LogFactory has been disposed.
+2026-07-31 19:45:10.5633 Info Registered target NLog.Targets.FileTarget(Name=logfile)
+2026-07-31 19:45:10.5735 Info NLog, Version=6.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 6.1.3.5285. Product version: 6.1.3+7f18a90739535f5ddc71c48e0fa28c59e5ee8969. GlobalAssemblyCache: False
+2026-07-31 19:45:10.5922 Info Configuration initialized: TargetNames=logfile, ConfigItems=12, AutoReload=true, FilePath=C:\Users\hp\Desktop\WEB API PROJELER\E-Ticaret_BitStore\E-Ticaret_BitStore\nlog.config
+2026-07-31 19:45:28.0250 Info AppDomain Shutting down. LogFactory closing...
+2026-07-31 19:45:28.0250 Info LogFactory has been disposed.

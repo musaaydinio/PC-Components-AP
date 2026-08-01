@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Presentation.ActionFilters;
 using Repository.Contracts;
 using Repository.EF_Core;
 using Services;
@@ -22,5 +23,11 @@ namespace E_Ticaret_BitStore.Ectensions
             services.AddScoped<IServiceManager, ServicesManager>();
         public static void ConfigureLoggerService(this IServiceCollection services) =>
             services.AddSingleton<ILoggerServices, LoggerManager>();
+
+        public static void ConfigureActionFilter(this IServiceCollection services)
+        {
+            services.AddScoped<ValidationFilterAttribute>();
+            services.AddSingleton<LogFilterAttribute>();
+        }
     }
 }
