@@ -1,4 +1,5 @@
 ﻿using Entities.Models;
+using Entities.RequestFeatures;
 using Microsoft.EntityFrameworkCore;
 using Repository.Contracts;
 using Story.EF_Core;
@@ -23,8 +24,14 @@ namespace Repository.EF_Core
         public void DeleteOneProduct(Product product)=>Delete(product);
 
 
-        public async Task<IEnumerable<Product>> GetAllProductAsync(bool trackChanges) => 
-            await FindAll(trackChanges).OrderBy(b =>b.Id).ToListAsync();
+        public async Task<PageList<Product>> GetAllProductAsync(ProductParameters productParameters,
+            bool trackChanges)
+        {
+           var product= await FindAll(trackChanges).OrderBy(b => b.Id)
+            .ToListAsync();
+            return PageList<Product>.ToPagedList(product, productParameters.PageNumber,
+                productParameters.PageSize);
+        }
 
         public async Task<Product>GetOneProductByIdAsync(int id, bool trackChanges) => 
             await FindByCondition(b => b.Id.Equals(id), trackChanges).SingleOrDefaultAsync();

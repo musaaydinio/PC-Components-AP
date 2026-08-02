@@ -133,3 +133,15 @@
 2026-07-31 19:45:10.5922 Info Configuration initialized: TargetNames=logfile, ConfigItems=12, AutoReload=true, FilePath=C:\Users\hp\Desktop\WEB API PROJELER\E-Ticaret_BitStore\E-Ticaret_BitStore\nlog.config
 2026-07-31 19:45:28.0250 Info AppDomain Shutting down. LogFactory closing...
 2026-07-31 19:45:28.0250 Info LogFactory has been disposed.
+2026-08-01 21:58:53.8433 Info Registered target NLog.Targets.FileTarget(Name=logfile)
+2026-08-01 21:58:53.8550 Info NLog, Version=6.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 6.1.3.5285. Product version: 6.1.3+7f18a90739535f5ddc71c48e0fa28c59e5ee8969. GlobalAssemblyCache: False
+2026-08-01 21:58:53.8733 Info Configuration initialized: TargetNames=logfile, ConfigItems=12, AutoReload=true, FilePath=C:\Users\hp\Desktop\WEB API PROJELER\E-Ticaret_BitStore\E-Ticaret_BitStore\nlog.config
+2026-08-01 21:59:17.1328 Info Registered target NLog.Targets.FileTarget(Name=logfile)
+2026-08-01 21:59:17.1443 Info NLog, Version=6.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 6.1.3.5285. Product version: 6.1.3+7f18a90739535f5ddc71c48e0fa28c59e5ee8969. GlobalAssemblyCache: False
+2026-08-01 21:59:17.1659 Info Configuration initialized: TargetNames=logfile, ConfigItems=12, AutoReload=true, FilePath=C:\Users\hp\Desktop\WEB API PROJELER\E-Ticaret_BitStore\E-Ticaret_BitStore\nlog.config
+2026-08-02 08:04:46.6296 Info Registered target NLog.Targets.FileTarget(Name=logfile)
+2026-08-02 08:04:46.6451 Info NLog, Version=6.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 6.1.3.5285. Product version: 6.1.3+7f18a90739535f5ddc71c48e0fa28c59e5ee8969. GlobalAssemblyCache: False
+2026-08-02 08:04:46.6704 Info Configuration initialized: TargetNames=logfile, ConfigItems=12, AutoReload=true, FilePath=C:\Users\hp\Desktop\WEB API PROJELER\E-Ticaret_BitStore\E-Ticaret_BitStore\nlog.config
+2026-08-02 08:12:08.3705 Info Registered target NLog.Targets.FileTarget(Name=logfile)
+2026-08-02 08:12:08.3846 Info NLog, Version=6.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 6.1.3.5285. Product version: 6.1.3+7f18a90739535f5ddc71c48e0fa28c59e5ee8969. GlobalAssemblyCache: False
+2026-08-02 08:12:08.4092 Info Configuration initialized: TargetNames=logfile, ConfigItems=12, AutoReload=true, FilePath=C:\Users\hp\Desktop\WEB API PROJELER\E-Ticaret_BitStore\E-Ticaret_BitStore\nlog.config
