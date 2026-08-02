@@ -40,6 +40,9 @@ namespace Services
             GetAllProductAsync(ProductParameters productParameters,
             bool trackChanges)
         {
+            if(!productParameters.ValidPriceRange)
+                throw new PriceOutOfRangeBadRequestException();
+
             var productsWithMetaData= await _manager.Product.GetAllProductAsync(productParameters
                 ,trackChanges);
             var productDto= _mapper.Map<IEnumerable<ProductDto>>(productsWithMetaData);

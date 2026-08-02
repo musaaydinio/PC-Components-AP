@@ -27,7 +27,10 @@ namespace Repository.EF_Core
         public async Task<PageList<Product>> GetAllProductAsync(ProductParameters productParameters,
             bool trackChanges)
         {
-           var product= await FindAll(trackChanges).OrderBy(b => b.Id)
+           var product= await FindAll(trackChanges)
+            .FilterProduct(productParameters.MinPrice, productParameters.MaxPrice)
+            .Search(productParameters.SearchTerm)
+            .OrderBy(b => b.Id)
             .ToListAsync();
             return PageList<Product>.ToPagedList(product, productParameters.PageNumber,
                 productParameters.PageSize);
