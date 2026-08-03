@@ -28,7 +28,8 @@ namespace Presentation.Controllers
             s_manager = manager;
         }
 
-        [HttpGet]
+        [HttpHead]
+        [HttpGet(Name ="GetAllProduct")]        
         public async Task<IActionResult> GetAllProducts([FromQuery] ProductParameters productParameters)
         {
             var pagedResult = await s_manager.ProductServices.GetAllProductAsync(productParameters, false);
@@ -90,6 +91,13 @@ namespace Presentation.Controllers
             await s_manager.ProductServices.SaveChangesForPatchAsync(result.productDtoForUpdate, result.product);
            
             return NoContent();
+        }
+
+        [HttpOptions]
+        public IActionResult GetProductsOptions()
+        {
+            Response.Headers.Add("Allow", "GET, PUT, POST, PUTCH, DELETE, HEAD, OPTİONS");
+            return Ok();
         }
     }
 }
