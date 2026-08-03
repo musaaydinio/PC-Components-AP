@@ -6,6 +6,7 @@ using Entities.RequestFeatures;
 using Repository.Contracts;
 using Services.Contracts;
 using System.ComponentModel.DataAnnotations;
+using System.Dynamic;
 
 namespace Services
 {
@@ -14,11 +15,13 @@ namespace Services
         private readonly ILoggerServices _logger;
         private readonly IRepositoryManager _manager;
         private readonly IMapper _mapper;
-        public ProductManager(IRepositoryManager manager,ILoggerServices logger,IMapper mapper)
+        private readonly IDataShaper<ProductDto> _dataShaper;
+        public ProductManager(IRepositoryManager manager, ILoggerServices logger, IMapper mapper, IDataShaper<ProductDto> dataShaper = null)
         {
             _logger = logger;
             _manager = manager;
             _mapper = mapper;
+            _dataShaper = dataShaper;
         }
 
         public async Task<ProductDto> CreateOneProductAsync(ProductDtoForInsertion productDto)
@@ -36,7 +39,7 @@ namespace Services
             await _manager.SaveAsync();
         }
 
-        public async Task<(IEnumerable<ProductDto> product, MetaData metaData)>
+        public async Task<(IEnumerable<ExpandoObject> product, MetaData metaData)>
             GetAllProductAsync(ProductParameters productParameters,
             bool trackChanges)
         {
@@ -46,7 +49,9 @@ namespace Services
             var productsWithMetaData= await _manager.Product.GetAllProductAsync(productParameters
                 ,trackChanges);
             var productDto= _mapper.Map<IEnumerable<ProductDto>>(productsWithMetaData);
-            return(productDto,productsWithMetaData.MetaData);
+
+            var shapedData=_dataShaper.ShapeData(productDto,productParameters.Fields);
+            return(product : shapedData, metaData: productsWithMetaData.MetaData);
         }
 
         public async Task<ProductDto> GetOneProductByIdAsync(int id, bool trackChanges)

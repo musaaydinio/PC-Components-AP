@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Entities.DataTransferObject;
+using Microsoft.EntityFrameworkCore;
 using Presentation.ActionFilters;
 using Repository.Contracts;
 using Repository.EF_Core;
@@ -41,5 +42,9 @@ namespace E_Ticaret_BitStore.Ectensions
                 );
             });
         }
-    }
+
+        public static void ConfigureDataSahper(this IServiceCollection services)
+        {
+            services.AddScoped<IDataShaper<ProductDto>, DataShaper<ProductDto>>();        }
+        }
 }
