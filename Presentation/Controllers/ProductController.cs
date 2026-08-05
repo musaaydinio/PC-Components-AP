@@ -17,8 +17,8 @@ using System.Threading.Tasks;
 
 namespace Presentation.Controllers
 {
-    [ServiceFilter(typeof(LogFilterAttribute), Order =2)]
-    [Route("api/[controller]")]
+    [ServiceFilter(typeof(LogFilterAttribute))]
+    [Route("api/product")]
     [ApiController]
     public class ProductController : ControllerBase
     {

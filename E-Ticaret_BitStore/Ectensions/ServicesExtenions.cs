@@ -1,6 +1,9 @@
 ﻿using Entities.DataTransferObject;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Versioning;
 using Microsoft.EntityFrameworkCore;
 using Presentation.ActionFilters;
+using Presentation.Controllers;
 using Repository.Contracts;
 using Repository.EF_Core;
 using Services;
@@ -12,8 +15,8 @@ namespace E_Ticaret_BitStore.Ectensions
 {
     public static class ServicesExtenions
     {
-        public static void ConfigureSqlContex(this IServiceCollection services,IConfiguration configuration)
-        =>services.AddDbContext<StoreDbcontex>(options => options.UseSqlServer(configuration
+        public static void ConfigureSqlContex(this IServiceCollection services, IConfiguration configuration)
+        => services.AddDbContext<StoreDbcontex>(options => options.UseSqlServer(configuration
                 .GetConnectionString("sqlConnection"),
              b => b.MigrationsAssembly("Repository")));
 
@@ -45,6 +48,24 @@ namespace E_Ticaret_BitStore.Ectensions
 
         public static void ConfigureDataSahper(this IServiceCollection services)
         {
-            services.AddScoped<IDataShaper<ProductDto>, DataShaper<ProductDto>>();        }
+            services.AddScoped<IDataShaper<ProductDto>, DataShaper<ProductDto>>();
         }
+
+        public static void ConfigureVersioning(this IServiceCollection services)
+        {
+            services.AddApiVersioning(opt =>
+            {
+                opt.ReportApiVersions = true;
+                opt.AssumeDefaultVersionWhenUnspecified = true;
+                opt.DefaultApiVersion = new ApiVersion(1, 0);
+                opt.ApiVersionReader = new HeaderApiVersionReader("api-version");
+                opt.Conventions.Controller<ProductController>()
+                .HasDeprecatedApiVersion(new ApiVersion(1, 0));
+
+                opt.Conventions.Controller<ProductV2Controller>()
+               .HasDeprecatedApiVersion(new ApiVersion(2, 0));
+
+            });
+        }
+    }       
 }

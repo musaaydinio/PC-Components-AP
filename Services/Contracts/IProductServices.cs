@@ -21,5 +21,6 @@ namespace Services.Contracts
 
         Task<(ProductDtoForUpdate productDtoForUpdate, Product product)>GetOneProductForPatchAsync(int id, bool trackChanges);
         Task SaveChangesForPatchAsync(ProductDtoForUpdate productDtoForUpdate,Product product);
+        Task<List<Product>> GetAllProductAsync(bool trackChanges);
     }
 }

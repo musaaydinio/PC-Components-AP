@@ -54,6 +54,12 @@ namespace Services
             return(product : shapedData, metaData: productsWithMetaData.MetaData);
         }
 
+        public async Task<List<Product>> GetAllProductAsync(bool trackChanges)
+        {
+            var product= await _manager.Product.GetAllProductAsync(trackChanges);
+            return product;
+        }
+
         public async Task<ProductDto> GetOneProductByIdAsync(int id, bool trackChanges)
         {
            var product= await GetOneProductAndCheckExits(id, trackChanges);

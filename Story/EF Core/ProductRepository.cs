@@ -36,6 +36,11 @@ namespace Repository.EF_Core
                 productParameters.PageSize);
         }
 
+        public async Task<List<Product>> GetAllProductAsync(bool trackChanges)
+        {
+           return await FindAll(trackChanges).OrderBy(b => b.Id).ToListAsync();
+        }
+
         public async Task<Product>GetOneProductByIdAsync(int id, bool trackChanges) => 
             await FindByCondition(b => b.Id.Equals(id), trackChanges).SingleOrDefaultAsync();
         

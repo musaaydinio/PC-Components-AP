@@ -21,7 +21,11 @@ builder.Services.AddControllers(config =>
 
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
-builder.Services.AddSwaggerGen();
+
+builder.Services.AddSwaggerGen(c =>
+{
+    c.ResolveConflictingActions(apiDescriptions => apiDescriptions.First());
+});
 
 builder.Services.Configure<ApiBehaviorOptions>(options =>
 {
@@ -36,6 +40,7 @@ builder.Services.AddAutoMapper(typeof(Program));
 builder.Services.ConfigureActionFilter();
 builder.Services.ConfigureCors();
 builder.Services.ConfigureDataSahper();
+builder.Services.ConfigureVersioning();
 
 var app = builder.Build();
 

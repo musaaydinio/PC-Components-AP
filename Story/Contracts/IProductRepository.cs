@@ -16,6 +16,7 @@ namespace Repository.Contracts
         Task<Product> GetOneProductByIdAsync(int id , bool trackChanges);
         void CreateOneProduct(Product product);
         void UpdateOneProduct(Product product);
-        void DeleteOneProduct(Product product);  
+        void DeleteOneProduct(Product product);
+        Task<List<Product>> GetAllProductAsync(bool trackChanges);
     }
 }
