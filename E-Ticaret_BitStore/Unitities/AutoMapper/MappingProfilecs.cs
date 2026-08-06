@@ -11,6 +11,7 @@ namespace E_Ticaret_BitStore.Unitities.AutoMapper
             CreateMap<ProductDtoForUpdate, Product>().ReverseMap();
             CreateMap<Product,ProductDto>();
             CreateMap<ProductDtoForInsertion, Product>();
+            CreateMap<UserForResgistrationDto, User>();
         }
     }
 }
