@@ -3,6 +3,7 @@ using Entities.DataTransferObject;
 using Entities.Exceptions;
 using Entities.Models;
 using Entities.RequestFeatures;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
@@ -28,6 +29,7 @@ namespace Presentation.Controllers
             s_manager = manager;
         }
 
+        [Authorize]
         [HttpHead]
         [HttpGet(Name ="GetAllProduct")]        
         public async Task<IActionResult> GetAllProducts([FromQuery] ProductParameters productParameters)

@@ -11,5 +11,7 @@ namespace Entities.Models
     {
         public String? FistName { get; set; }
         public String? LastName { get; set; }
+        public String? RefreshToken { get; set; }
+        public DateTime RefreshTokenExpriyTime { get; set; }
     }
 }
