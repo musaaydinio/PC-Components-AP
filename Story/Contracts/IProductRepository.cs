@@ -9,8 +9,10 @@ using System.Threading.Tasks;
 
 namespace Repository.Contracts
 {
+    // Ürünlerle ilgili veritabanı işlemlerini (CRUD, sayfalama, filtreleme) tanımladığımız arayüzümüz.
     public interface IProductRepository : IRepositoryBase<Product>
     {
+        // Parametrelere göre filtrelenmiş ve sayfalanmış ürün listesini getiriyoruz.
         Task<PageList<Product>> GetAllProductAsync(ProductParameters productParameters,
             bool trackChanges);
         Task<Product> GetOneProductByIdAsync(int id , bool trackChanges);
@@ -18,5 +20,6 @@ namespace Repository.Contracts
         void UpdateOneProduct(Product product);
         void DeleteOneProduct(Product product);
         Task<List<Product>> GetAllProductAsync(bool trackChanges);
+        Task<IEnumerable<Product>> GetAllProductWithDetails(bool trackChanges);
     }
 }

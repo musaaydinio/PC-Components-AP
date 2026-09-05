@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace Entities.Models
 {
+    // ASP.NET Core Identity altyapısını genişleterek kendi özel kullanıcı alanlarımızı eklediğimiz modelimiz.
     public class User : IdentityUser
     {
         public String? FistName { get; set; }

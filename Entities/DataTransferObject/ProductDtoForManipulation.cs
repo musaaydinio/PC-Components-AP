@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace Entities.DataTransferObject
 {
+    // Ekleme ve güncelleme işlemleri için ortak olan tüm doğrulama kurallarını  burada topladık.
     public abstract record ProductDtoForManipulation
     {
         [Required(ErrorMessage = "Ürün adı boş geçilemez.")]

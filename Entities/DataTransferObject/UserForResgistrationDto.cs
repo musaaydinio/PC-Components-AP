@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace Entities.DataTransferObject
 {
+    // Sisteme yeni bir kullanıcı kaydederken profil bilgilerini ve rollerini topladığımız veri transfer objemiz.
     public record UserForResgistrationDto
     {
         public string? FirstName { get; set; }

@@ -13,22 +13,23 @@ using System.Threading.Tasks;
 
 namespace Services
 {
+    // Tüm servis sınıflarımızı tek bir çatı altında toplayarak  Controller tarafında bağımlılıkları sadeleştirdiğimiz yönetici sınıfımız.
     public class ServicesManager : IServiceManager
     {
-        private readonly Lazy<IProductServices> _productServices;
-        private readonly Lazy<IAuthenticationService> _authenticationService;
-        public ServicesManager(IRepositoryManager repositoryManager,ILoggerServices loggerServices,
-            IMapper mapper, UserManager<User> userManager,
-            IDataShaper<ProductDto> shaper, IConfiguration configuration)
+        private readonly IProductServices _productServices;
+        private readonly IAuthenticationService _authenticationService;
+        private readonly ICategoryService _categoryService;
+
+        public ServicesManager(IProductServices productServices, IAuthenticationService authenticationService, ICategoryService categoryService)
         {
-            _productServices= new Lazy<IProductServices>(()=>new ProductManager(repositoryManager, 
-                loggerServices,mapper,shaper));
-
-            _authenticationService = new Lazy<IAuthenticationService>(() =>
-            new AuthenticationManager(loggerServices, mapper, userManager, configuration));
+            _productServices = productServices;
+            _authenticationService = authenticationService;
+            _categoryService = categoryService;
         }
-        public IProductServices ProductServices => _productServices.Value;
+        public IProductServices ProductServices => _productServices;
 
-        public IAuthenticationService AuthenticationService => _authenticationService.Value;
+        public IAuthenticationService AuthenticationService => _authenticationService;
+
+        public ICategoryService CategoryService => _categoryService;
     }
 }

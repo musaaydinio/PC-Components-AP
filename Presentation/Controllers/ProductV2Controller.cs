@@ -9,8 +9,10 @@ using System.Threading.Tasks;
 
 namespace Presentation.Controllers
 {
+    // API v2 versiyonu için ürün isteklerini karşıladığımız controller sınıfımız.
     [Route("api/product")]
     [ApiController]
+    [ApiExplorerSettings(GroupName = "V2")]
     public class ProductV2Controller : ControllerBase
     {
         private readonly IServiceManager _serviceManager;
@@ -18,7 +20,7 @@ namespace Presentation.Controllers
         {            
             _serviceManager = serviceManager;   
         }
-
+        // V2 versiyonuna özel olarak tüm ürünlerin sadece Id ve Name bilgilerini DTO üzerinden dönüyoruz.
         [HttpGet]
         public async Task<IActionResult> GetAllProductAsync()
         {

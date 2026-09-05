@@ -6,13 +6,15 @@ using System.Threading.Tasks;
 
 namespace Entities.RequestFeatures
 {
+    // Tüm parametre sınıflarımız için temel özellikleri tanımlıyoruz.
     public abstract class RequestParameters
     {
         const int maxPageSize = 50;
-        public int PageNumber{ get; set; }
+        public int PageNumber { get; set; } = 1;
 
-        private int _pageSize;
+        private int _pageSize = 10;
 
+        // İstemciden gelen sayfa boyutunu kontrol edip, belirlediğimiz maksimum sınırı aşmasını engelliyoruz.
         public int PageSize
         {
             get { return _pageSize; }

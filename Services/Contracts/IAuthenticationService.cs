@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 
 namespace Services.Contracts
 {
+    // Kullanıcı kimlik doğrulama, kayıt olma ve JWT (Token) işlemlerini yönettiğimiz servis arayüzümüz.
     public interface IAuthenticationService
     {
         Task<IdentityResult> Register(UserForResgistrationDto userForRegistrationDto);

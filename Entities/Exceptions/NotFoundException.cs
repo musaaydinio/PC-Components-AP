@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace Entities.Exceptions
 {
+    // API genelinde "404 Not Found" durumlarını hiyerarşik olarak yönetmek için oluşturduğumuz abstract temel sınıfımız.
     public abstract class NotFoundException: Exception
     {
         protected NotFoundException(string message): base(message)

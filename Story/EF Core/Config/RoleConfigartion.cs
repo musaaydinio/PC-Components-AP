@@ -9,10 +9,12 @@ using System.Threading.Tasks;
 
 namespace Repository.EF_Core.Config
 {
+    // Sistemimizdeki kullanıcı rollerinin (IdentityRole) başlangıç verilerini yapılandırıyoruz.
     public class RoleConfigartion : IEntityTypeConfiguration<IdentityRole>
     {
         public void Configure(EntityTypeBuilder<IdentityRole> builder)
         {
+            // Veritabanı ayağa kalktığında otomatik olarak oluşacak varsayılan yetkilendirme rollerini sisteme ekliyoruz.
             builder.HasData(
            new IdentityRole
            {
@@ -32,5 +34,4 @@ namespace Repository.EF_Core.Config
            );
         }
     }
-    
 }

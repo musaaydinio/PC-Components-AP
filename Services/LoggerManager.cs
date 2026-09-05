@@ -8,9 +8,11 @@ using System.Collections.Generic;
 
 namespace Services
 {
+    // NLog kütüphanesini kullanarak API genelindeki tüm log alma işlemlerini yaptğımız sınıfımız.
     public class LoggerManager : ILoggerServices
     {
         private static NLog.ILogger logger =LogManager.GetCurrentClassLogger();
+
         public void LogDebug(string message)=>logger.Debug(message);
         
 

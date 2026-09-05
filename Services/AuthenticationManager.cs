@@ -9,6 +9,7 @@ using Microsoft.IdentityModel.Tokens;
 using Services.Contracts;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.Metrics;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
@@ -19,6 +20,7 @@ using System.Threading.Tasks;
 
 namespace Services
 {
+    // Kullanıcı kayıt, giriş ve JWT (Token) üretim süreçlerinin tüm iş kurallarını yönettiğimiz servis sınıfımız.
     public class AuthenticationManager : IAuthenticationService
     {
         private readonly ILoggerServices _loggerService;
@@ -38,6 +40,7 @@ namespace Services
             _config = config;
         }
 
+        // Doğrulanmış kullanıcı için yeni bir erişim token'ı (JWT) ve yenileme token'ı (Refresh Token) üretiyoruz.
         public async Task<TokenDto> CreateToken(bool exp)
         {
             var signinCredentials = GetSiginCredentials();
@@ -60,6 +63,7 @@ namespace Services
             };
         }
 
+        // Dışarıdan gelen DTO'yu User nesnesine çevirip sisteme yeni bir kullanıcı olarak kaydediyoruz.
         public async Task<IdentityResult> Register(UserForResgistrationDto userForRegistrationDto)
         {
             var user = _mapper.Map<User>(userForRegistrationDto);
@@ -73,6 +77,7 @@ namespace Services
             return result;
         }
 
+        // İstemciden gelen kullanıcı adı ve şifre bilgilerinin veritabanındaki kayıtlarla eşleşip eşleşmediğini denetliyoruz.
         public async Task<bool> ValidateUser(UserForAuthenticationDto userForAuthDto)
         {
             _user = await _userManager.FindByNameAsync(userForAuthDto.UserName);
@@ -85,6 +90,7 @@ namespace Services
             return result;
         }
 
+        // Appsettings deki anahtarımızı(SecretKey) kullanarak token imzalama güvenliğini sağlıyoruz.
         private SigningCredentials GetSiginCredentials()
         {
             var jwtsettings = _config.GetSection("JwtSetting");
@@ -93,6 +99,7 @@ namespace Services
             return new SigningCredentials(secret, SecurityAlgorithms.HmacSha256);
         }
 
+        // Token içerisine gömeceğimiz kullanıcı bilgilerini yapılandırıyoruz.
         private async Task<List<Claim>> GetClaims()
         {
             var claims = new List<Claim>()
@@ -108,6 +115,7 @@ namespace Services
             return claims;
         }
 
+        // Token'ın kim tarafından, kime ve ne süreyle geçerli olacağını ayarlıyoruz.
         private JwtSecurityToken GenerateTokenOpstions(SigningCredentials signinCredentials, List<Claim> claims)
         {
             var jwtsettings = _config.GetSection("JwtSetting");
@@ -119,7 +127,7 @@ namespace Services
                 signingCredentials: signinCredentials);
             return tokenOpt;
         }
-
+        // Kriptografik olarak güvenli, rastgele bir Refresh Token metni üretiyoruz.
         private string GenerateRefreshToken()
         {
             var randomNumber = new byte[32];
@@ -129,7 +137,7 @@ namespace Services
                 return Convert.ToBase64String(randomNumber);
             }
         }
-
+        // Süresi dolmuş token'ın imza ve algoritma kontrollerini yapıp, içindeki kullanıcı bilgilerini çıkarıyoruz.
         private ClaimsPrincipal GetPrincipalFromExpiredToken(string token)
         {
             var jwtSetting = _config.GetSection("JwtSetting");
@@ -161,7 +169,7 @@ namespace Services
             }
             return principal;
         }
-
+        // İstemciden gelen Refresh Token'ın geçerliliğini ve süresini kontrol edip, onaylanırsa yeni bir token seti dönüyoruz.
         public async Task<TokenDto> RefreshToken(TokenDto tokenDto)
         {
             var principal = GetPrincipalFromExpiredToken(tokenDto.AccessToken);

@@ -12,8 +12,8 @@ using Story.EF_Core;
 namespace Repository.Migrations
 {
     [DbContext(typeof(StoreDbcontex))]
-    [Migration("20260806192714_AddRolesToDatabase")]
-    partial class AddRolesToDatabase
+    [Migration("20260822105439_init")]
+    partial class init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,6 +24,55 @@ namespace Repository.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("Entities.Models.Category", b =>
+                {
+                    b.Property<int>("CategoryId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CategoryId"));
+
+                    b.Property<string>("CategoryName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("CategoryId");
+
+                    b.ToTable("Categories");
+
+                    b.HasData(
+                        new
+                        {
+                            CategoryId = 1,
+                            CategoryName = "Ekran Kartı"
+                        },
+                        new
+                        {
+                            CategoryId = 2,
+                            CategoryName = "Monitor"
+                        },
+                        new
+                        {
+                            CategoryId = 3,
+                            CategoryName = "İşlemci"
+                        },
+                        new
+                        {
+                            CategoryId = 4,
+                            CategoryName = "Klavye,Mouse,Kulaklık"
+                        },
+                        new
+                        {
+                            CategoryId = 5,
+                            CategoryName = "Ram"
+                        },
+                        new
+                        {
+                            CategoryId = 6,
+                            CategoryName = "Anakart"
+                        });
+                });
 
             modelBuilder.Entity("Entities.Models.Product", b =>
                 {
@@ -102,6 +151,12 @@ namespace Repository.Migrations
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("bit");
 
+                    b.Property<string>("RefreshToken")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("RefreshTokenExpriyTime")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
 
@@ -154,19 +209,19 @@ namespace Repository.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "7b2bae9f-9976-4620-a5e1-19e45c627fb3",
+                            Id = "f9e97276-cf93-4e9d-ad16-4a65dc416a32",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
-                            Id = "527eb3ce-6d10-473f-aded-37270db92540",
+                            Id = "495fc085-16f0-4907-ba7b-e80b57c857f4",
                             Name = "Editor",
                             NormalizedName = "EDITOR"
                         },
                         new
                         {
-                            Id = "a9a17692-0460-4e0e-9571-c7d908e4ea2a",
+                            Id = "2ff261d8-1e1c-4f61-a010-a9f4a5cf993d",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         });

@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace Entities.DataTransferObject
 {
+    // Güncelleme işlemlerinde kullanmak üzere temel sınıfı genişlettik ve Id alanını zorunlu kıldık.
     public record class ProductDtoForUpdate : ProductDtoForManipulation
     {
         [Required]

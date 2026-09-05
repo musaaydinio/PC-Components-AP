@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace Entities.LogModel
 {
+    // API üzerindeki istekleri ve sistem eylemlerini loglamak için kullandığımız veri modelimiz.
     public class LogDetails
     {
         public Object? ModelName { get; set; }

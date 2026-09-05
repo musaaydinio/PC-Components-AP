@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace Services.Contracts
 {
+    // Veri Şekillendirme işlemlerini yaparak istemciye sadece talep ettiği alanları (property) dönmemizi sağlayan arayüzümüz.
     public interface IDataShaper<T>
     {
         IEnumerable<ExpandoObject> ShapeData(IEnumerable<T> enteties,string fieldsString);

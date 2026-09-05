@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace Services.Contracts
 {
+    // API genelinde hata yönetimi ve sistem bilgi kayıtlarını tuttuğumuz arayüzümüz.
     public interface ILoggerServices
     {
         void LogInfo(string message);

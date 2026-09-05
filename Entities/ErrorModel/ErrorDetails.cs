@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace Entities.ErrorModel
 {
+    // Uygulama genelinde meydana gelen hataları standart bir JSON formatında dönmek için oluşturduğumuz hata modelimiz.
     public class ErrorDetails
     {
         public int StatusCode { get; set; }

@@ -7,8 +7,10 @@ using Services.Contracts;
 
 namespace Presentation.Controllers
 {
+    // Kullanıcı kayıt, giriş ve token yenileme gibi kimlik doğrulama isteklerini karşıladığımız controller sınıfımız.
     [ApiController]
     [Route("api/authentication")]
+    [ApiExplorerSettings(GroupName = "V1")]
     public class AuthenticationController : ControllerBase
     {
         private readonly IServiceManager _services;
@@ -16,7 +18,7 @@ namespace Presentation.Controllers
         {
             _services = services;
         }
-
+        // Yeni kullanıcı kaydı oluşturmak için HTTP POST isteğini karşılıyoruz.
         [HttpPost]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> RegisterUser(UserForResgistrationDto userForResgistrationDto)
@@ -33,7 +35,7 @@ namespace Presentation.Controllers
             }
             return StatusCode(201);
         }
-
+        // Kullanıcı giriş bilgilerini doğrulayıp istemciye JWT ve Refresh Token dönüyoruz.
         [HttpPost("login")]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> Authenticate([FromBody] UserForAuthenticationDto user)
@@ -45,7 +47,7 @@ namespace Presentation.Controllers
 
             return Ok(tokenDto);
         }
-
+        // Süresi dolan erişim token'ını yenilemek için gelen refresh token isteğini karşılıyoruz.
         [HttpPost("refresh")]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> Refresh([FromBody] TokenDto tokenDto)
