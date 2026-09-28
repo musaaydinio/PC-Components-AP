@@ -4,6 +4,7 @@ WORKDIR /src
 COPY . .
 
 RUN dotnet restore "Web_E-Ticaret_BitStore/Web_E-Ticaret_BitStore.csproj"
+
 RUN dotnet publish "Web_E-Ticaret_BitStore/Web_E-Ticaret_BitStore.csproj" -c Release -o /app/publish /p:UseAppHost=false
 
 FROM mcr.microsoft.com/dotnet/aspnet:9.0 AS final
