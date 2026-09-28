@@ -62,15 +62,12 @@ var app = builder.Build();
 var logger =app.Services.GetRequiredService<ILoggerServices>();
 app.ConfigureExceptionHandler(logger);
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
     app.UseSwagger();
     app.UseSwaggerUI(s =>
     {
         s.SwaggerEndpoint("/swagger/V1/swagger.json", "MuNi Gaming V1");
         s.SwaggerEndpoint("/swagger/V2/swagger.json", "MuNi GamingV2");
     });
-}
 if (app.Environment.IsProduction())
 {
     app.UseHsts();
