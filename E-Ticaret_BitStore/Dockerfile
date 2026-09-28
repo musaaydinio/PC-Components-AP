@@ -5,7 +5,9 @@ COPY . .
 
 RUN dotnet restore
 
-RUN dotnet publish "E-Ticaret_BitStore/E-Ticaret_BitStore.csproj" -c Release -o /app/publish /p:UseAppHost=false
+WORKDIR "/src/Web_E-Ticaret_BitStore"
+
+RUN dotnet publish -c Release -o /app/publish /p:UseAppHost=false
 
 FROM mcr.microsoft.com/dotnet/aspnet:9.0 AS final
 WORKDIR /app
@@ -15,4 +17,4 @@ ENV ASPNETCORE_ENVIRONMENT=Production
 
 COPY --from=build /app/publish .
 
-ENTRYPOINT ["dotnet", "E-Ticaret_BitStore.dll"]
+ENTRYPOINT ["dotnet", "Web_E-Ticaret_BitStore.dll"]tore.dll"]
