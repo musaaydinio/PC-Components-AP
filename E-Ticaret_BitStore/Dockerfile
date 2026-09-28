@@ -3,11 +3,8 @@ WORKDIR /src
 
 COPY . .
 
-RUN dotnet restore
-
-WORKDIR "/src/Web_E-Ticaret_BitStore"
-
-RUN dotnet publish -c Release -o /app/publish /p:UseAppHost=false
+RUN dotnet restore "Web_E-Ticaret_BitStore/Web_E-Ticaret_BitStore.csproj"
+RUN dotnet publish "Web_E-Ticaret_BitStore/Web_E-Ticaret_BitStore.csproj" -c Release -o /app/publish /p:UseAppHost=false
 
 FROM mcr.microsoft.com/dotnet/aspnet:9.0 AS final
 WORKDIR /app
@@ -17,4 +14,4 @@ ENV ASPNETCORE_ENVIRONMENT=Production
 
 COPY --from=build /app/publish .
 
-ENTRYPOINT ["dotnet", "Web_E-Ticaret_BitStore.dll"]tore.dll"]
+ENTRYPOINT ["dotnet", "Web_E-Ticaret_BitStore.dll"]
