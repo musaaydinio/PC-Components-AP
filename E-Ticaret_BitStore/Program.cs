@@ -1,4 +1,4 @@
-using AspNetCoreRateLimit;
+ï»¿using AspNetCoreRateLimit;
 using E_Ticaret_BitStore.Extensions;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Mvc;
@@ -10,10 +10,10 @@ using Story.EF_Core;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// NLog yapılandırma dosyamızı okuyarak log sistemini başlatıyoruz.
+// NLog yapÄ±landÄ±rma dosyamÄ±zÄ± okuyarak log sistemini baÅŸlatÄ±yoruz.
 LogManager.Setup().LoadConfigurationFromFile(String.Concat(Directory.GetCurrentDirectory(), "/nlog.config"));
 
-// Controller servislerimizi; içerik pazarlığı, XML desteği ve JSON dairesel referans çözümleriyle birlikte ekliyoruz.
+// Controller servislerimizi; iÃ§erik pazarlÄ±ÄŸÄ±, XML desteÄŸi ve JSON dairesel referans Ã§Ã¶zÃ¼mleriyle birlikte ekliyoruz.
 builder.Services.AddControllers(config =>
 {
     config.RespectBrowserAcceptHeader = true;
@@ -28,7 +28,7 @@ builder.Services.AddControllers(config =>
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 
-// Kendi özel ValidationFilter yapımızı kullandığımız için varsayılan model doğrulama filtresini pasife alıyoruz.
+// Kendi Ã¶zel ValidationFilter yapÄ±mÄ±zÄ± kullandÄ±ÄŸÄ±mÄ±z iÃ§in varsayÄ±lan model doÄŸrulama filtresini pasife alÄ±yoruz.
 builder.Services.Configure<ApiBehaviorOptions>(options =>
 {
     options.SuppressModelStateInvalidFilter = true;
@@ -58,7 +58,7 @@ builder.Services.ConfigureHealthChecks(builder.Configuration);
 
 var app = builder.Build();
 
-// Global hata yakalama mekanizmamızı uygulamaya dahil ediyoruz.
+// Global hata yakalama mekanizmamÄ±zÄ± uygulamaya dahil ediyoruz.
 var logger =app.Services.GetRequiredService<ILoggerServices>();
 app.ConfigureExceptionHandler(logger);
 // Configure the HTTP request pipeline.
@@ -68,43 +68,36 @@ app.ConfigureExceptionHandler(logger);
         s.SwaggerEndpoint("/swagger/V1/swagger.json", "MuNi Gaming V1");
         s.SwaggerEndpoint("/swagger/V2/swagger.json", "MuNi GamingV2");
 
-        // JavaScript kodumuzu Swagger'ın başlığına (Head) enjekte ediyoruz
+        // JavaScript kodumuzu Swagger'Ä±n baÅŸlÄ±ÄŸÄ±na (Head) enjekte ediyoruz
         s.HeadContent = @"
     <script>
         window.addEventListener('load', function() {
-            // Tarayıcının 'fetch' (istek atma) motorunu kopyalıyoruz
             const originalFetch = window.fetch;
             
-            // İstek motorunu kendi ajanımızla değiştiriyoruz
             window.fetch = async function() {
-                // İstek normal şekilde sunucuya gitsin
                 const response = await originalFetch.apply(this, arguments);
                 const url = arguments[0];
                 
-                // Giden isteğin URL'sinde 'login' kelimesi geçiyorsa ve işlem başarılıysa (200)
+                // Login isteÄŸi atÄ±ldÄ±ÄŸÄ±nda ve 200 OK dÃ¶ndÃ¼ÄŸÃ¼nde Ã§alÄ±ÅŸÄ±r
                 if (url && url.toLowerCase().includes('login') && response.status === 200) {
-                    
-                    // Gelen yanıtı kopyalayıp içindeki JSON verisini okuyoruz
                     response.clone().json().then(data => {
-                        
-                        // Senin API'nden dönen token'ı yakalıyoruz (İsmine göre accessToken da olabilir)
-                        const token = data.token || data.accessToken;
+                        // YanÄ±tÄ±ndaki 'accessToken' deÄŸerini doÄŸrudan yakalÄ±yoruz
+                        const token = data.accessToken;
                         
                         if (token) {
-                            // Swagger'ın kendi iç güvenlik mekanizmasını (ui.authActions) çağırıp,
-                            // kilit kutusuna Token'ı otomatik olarak yerleştiriyoruz.
-                            if (window.ui) {
-                                window.ui.authActions.authorize({
+                            const ui = window.ui || window.swaggerUi;
+                            if (ui && ui.authActions) {
+                                ui.authActions.authorize({
                                     Bearer: {
                                         name: 'Bearer',
                                         schema: { type: 'http', scheme: 'bearer', bearerFormat: 'JWT' },
                                         value: token
                                     }
                                 });
-                                console.log('Sistem: Token havada yakalandı ve Swagger yetkilendirildi!');
+                                console.log('âœ… Token baÅŸarÄ±yla yakalandÄ± ve yetkilendirildi!');
                             }
                         }
-                    });
+                    }).catch(err => console.error('Token okuma hatasÄ±:', err));
                 }
                 return response;
             };
@@ -118,7 +111,7 @@ if (app.Environment.IsProduction())
 
 app.UseHttpsRedirection();
 
-// HTTP isteklerinin geçeceği güvenlik, önbellekleme ve yetkilendirme katmanlarını sırasıyla çalıştırıyoruz
+// HTTP isteklerinin geÃ§eceÄŸi gÃ¼venlik, Ã¶nbellekleme ve yetkilendirme katmanlarÄ±nÄ± sÄ±rasÄ±yla Ã§alÄ±ÅŸtÄ±rÄ±yoruz
 app.UseIpRateLimiting();
 app.UseCors("CorsPlay");
 app.UseResponseCaching();
