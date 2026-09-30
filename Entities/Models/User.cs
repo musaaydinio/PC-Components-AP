@@ -10,7 +10,7 @@ namespace Entities.Models
     // ASP.NET Core Identity altyapısını genişleterek kendi özel kullanıcı alanlarımızı eklediğimiz modelimiz.
     public class User : IdentityUser
     {
-        public String? FistName { get; set; }
+        public String? FirstName { get; set; }
         public String? LastName { get; set; }
         public String? RefreshToken { get; set; }
         public DateTime RefreshTokenExpriyTime { get; set; }
