@@ -233,7 +233,7 @@ namespace E_Ticaret_BitStore.Extensions
         {
             // Health Check servisini ekliyoruz ve SQL Server veritabanımızı kontrol etmesini söylüyoruz.
             services.AddDbContext<StoreDbcontex>(opts =>
-            opts.UseSqlServer(configuration.GetConnectionString("sqlConnection")));
+            opts.UseNpgsql(configuration.GetConnectionString("sqlConnection")));
 
             // 2. Health Check bağlantısı (Aynı metodun içinde!)
             services.AddHealthChecks()
