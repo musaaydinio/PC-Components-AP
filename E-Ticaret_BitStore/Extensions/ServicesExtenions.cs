@@ -239,6 +239,15 @@ namespace E_Ticaret_BitStore.Extensions
             services.AddHealthChecks()
                 .AddDbContextCheck<StoreDbcontex>("Database Health Check");
         }
+
+        public static void ConfigureAndMigrateDatabase(this WebApplication app)
+        {
+            using (var scope = app.Services.CreateScope())
+            {
+                var dbContext = scope.ServiceProvider.GetRequiredService<StoreDbcontex>();
+                dbContext.Database.Migrate();
+            }
+        }
     }
 }
 

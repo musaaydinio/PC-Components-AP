@@ -108,5 +108,6 @@ app.MapHealthChecks("/health", new HealthCheckOptions
 });
 
 app.MapControllers();
+app.ConfigureAndMigrateDatabase();
 
 app.Run();
