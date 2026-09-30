@@ -20,10 +20,10 @@ builder.Services.AddControllers(config =>
     config.ReturnHttpNotAcceptable = true;
     config.CacheProfiles.Add("5mins", new CacheProfile() { Duration = 300 });
 })
-.AddXmlDataContractSerializerFormatters()
-.AddApplicationPart(typeof(Presentation.AssemblyReference).Assembly)
 .AddNewtonsoftJson(opt =>
-    opt.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
+    opt.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore)
+.AddXmlDataContractSerializerFormatters()
+.AddApplicationPart(typeof(Presentation.AssemblyReference).Assembly);
 
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();

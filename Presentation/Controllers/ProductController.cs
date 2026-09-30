@@ -24,6 +24,8 @@ namespace Presentation.Controllers
     [Route("api/product")]
     [ApiController]
     [ApiExplorerSettings(GroupName = "V1")]
+    [Consumes("application/json", "application/json-patch+json",
+    "application/xml")]
     public class ProductController : ControllerBase
     {
         private readonly IServiceManager s_manager;

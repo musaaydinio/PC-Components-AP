@@ -13,6 +13,8 @@ namespace Presentation.Controllers
     [Route("api/product")]
     [ApiController]
     [ApiExplorerSettings(GroupName = "V2")]
+    [Consumes("application/json", "application/json-patch+json",
+    "application/xml")]
     public class ProductV2Controller : ControllerBase
     {
         private readonly IServiceManager _serviceManager;

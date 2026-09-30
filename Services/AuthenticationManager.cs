@@ -72,7 +72,7 @@ namespace Services
 
             if (result.Succeeded)
             {
-                await _userManager.AddToRolesAsync(user, userForRegistrationDto.Roles);
+                await _userManager.AddToRoleAsync(user, "User");
             }
             return result;
         }

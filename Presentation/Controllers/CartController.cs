@@ -16,6 +16,8 @@ namespace Presentation.Controllers
     [ApiController]
     [Route("api/cart")]
     [Authorize]
+    [Consumes("application/json", "application/json-patch+json",
+    "application/xml")]
     public class CartController : ControllerBase
     {
         private readonly StoreDbcontex _context;

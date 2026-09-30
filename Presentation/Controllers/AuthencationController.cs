@@ -11,6 +11,8 @@ namespace Presentation.Controllers
     [ApiController]
     [Route("api/authentication")]
     [ApiExplorerSettings(GroupName = "V1")]
+    [Consumes("application/json", "application/json-patch+json",
+    "application/xml")]
     public class AuthenticationController : ControllerBase
     {
         private readonly IServiceManager _services;
