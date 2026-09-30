@@ -27,7 +27,7 @@ namespace Presentation.Controllers
         {
             var result = await _services.AuthenticationService.Register
                 (userForResgistrationDto);
-            if (result.Succeeded)
+            if (!result.Succeeded)
             {
                 foreach (var error in result.Errors)
                 {
