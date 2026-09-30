@@ -17,9 +17,6 @@ using Services;
 using Services.Contracts;
 using Story.EF_Core;
 using System.Text;
-using Npgsql.EntityFrameworkCore.PostgreSQL;
-using Repository;
-
 namespace E_Ticaret_BitStore.Extensions
 {
     // Program.cs dosyasını temiz tutmak için tüm servis kayıt ayarlarımızı bu extension sınıfında yapıyoruz.
@@ -178,6 +175,7 @@ namespace E_Ticaret_BitStore.Extensions
                 {
                     Title = "MuNi Gaming",
                     Version = "V1",
+                    Description = "🔑 **TEST / DEMO GİRİŞ BİLGİLERİ:**\n\n- **UserName:** `demouser` \n- **Password:** `Password123*` \n\n*Aşağıdaki Login kısmından direkt Execute diyerek API'yi yetkilendirebilirsiniz.*",
                     Contact = new OpenApiContact
                     {
                         Name = "Musa Aydın",
@@ -240,12 +238,53 @@ namespace E_Ticaret_BitStore.Extensions
                 .AddDbContextCheck<StoreDbcontex>("Database Health Check");
         }
 
-        public static void ConfigureAndMigrateDatabase(this WebApplication app)
+        public static async Task ConfigureAndMigrateDatabase(this WebApplication app)
         {
             using (var scope = app.Services.CreateScope())
             {
-                var dbContext = scope.ServiceProvider.GetRequiredService<StoreDbcontex>();
-                dbContext.Database.Migrate();
+                var services = scope.ServiceProvider;
+                var dbContext = services.GetRequiredService<StoreDbcontex>();
+
+                // 1. Veritabanında eksik tablo varsa oluşturur (Bunu zaten yapmıştık)
+                await dbContext.Database.MigrateAsync();
+
+                // 2. Identity servislerini çağırıyoruz (Kullanıcı ve Rol yönetimi için)
+                var userManager = services.GetRequiredService<UserManager<User>>();
+                var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
+
+                // 3. ROL KONTROLÜ: Veritabanında "User" adında bir rol var mı?
+                // Yoksa, hata almamak için önce bu rolü oluşturuyoruz.
+                if (!await roleManager.RoleExistsAsync("User"))
+                {
+                    await roleManager.CreateAsync(new IdentityRole("User"));
+                }
+
+                // 4. KULLANICI KONTROLÜ: "demo@test.com" mailine sahip biri var mı?
+                var demoEmail = "demo@test.com";
+                var demoUser = await userManager.FindByEmailAsync(demoEmail);
+
+                // 5. KULLANICI YOKSA OLUŞTUR:
+                if (demoUser == null)
+                {
+                    var user = new User
+                    {
+                        FirstName = "Demo",
+                        LastName = "Kullanici",
+                        UserName = "demouser",
+                        Email = demoEmail,
+                        PhoneNumber = "05550000000",
+                        EmailConfirmed = true // Mail onayını baştan true yapıyoruz ki engele takılmasın
+                    };
+
+                    // Şifreyi şifreleyerek (Hash) veritabanına kaydeder
+                    var result = await userManager.CreateAsync(user, "Password123*");
+
+                    // Başarıyla kaydedildiyse, ona "User" rolünü verir
+                    if (result.Succeeded)
+                    {
+                        await userManager.AddToRoleAsync(user, "User");
+                    }
+                }
             }
         }
     }
