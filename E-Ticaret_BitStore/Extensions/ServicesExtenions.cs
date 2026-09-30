@@ -17,6 +17,8 @@ using Services;
 using Services.Contracts;
 using Story.EF_Core;
 using System.Text;
+using Npgsql.EntityFrameworkCore.PostgreSQL;
+using Repository;
 
 namespace E_Ticaret_BitStore.Extensions
 {
