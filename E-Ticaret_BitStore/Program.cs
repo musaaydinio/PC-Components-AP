@@ -67,6 +67,49 @@ app.ConfigureExceptionHandler(logger);
     {
         s.SwaggerEndpoint("/swagger/V1/swagger.json", "MuNi Gaming V1");
         s.SwaggerEndpoint("/swagger/V2/swagger.json", "MuNi GamingV2");
+
+        // JavaScript kodumuzu Swagger'ýn baþlýðýna (Head) enjekte ediyoruz
+        s.HeadContent = @"
+    <script>
+        window.addEventListener('load', function() {
+            // Tarayýcýnýn 'fetch' (istek atma) motorunu kopyalýyoruz
+            const originalFetch = window.fetch;
+            
+            // Ýstek motorunu kendi ajanýmýzla deðiþtiriyoruz
+            window.fetch = async function() {
+                // Ýstek normal þekilde sunucuya gitsin
+                const response = await originalFetch.apply(this, arguments);
+                const url = arguments[0];
+                
+                // Giden isteðin URL'sinde 'login' kelimesi geçiyorsa ve iþlem baþarýlýysa (200)
+                if (url && url.toLowerCase().includes('login') && response.status === 200) {
+                    
+                    // Gelen yanýtý kopyalayýp içindeki JSON verisini okuyoruz
+                    response.clone().json().then(data => {
+                        
+                        // Senin API'nden dönen token'ý yakalýyoruz (Ýsmine göre accessToken da olabilir)
+                        const token = data.token || data.accessToken;
+                        
+                        if (token) {
+                            // Swagger'ýn kendi iç güvenlik mekanizmasýný (ui.authActions) çaðýrýp,
+                            // kilit kutusuna Token'ý otomatik olarak yerleþtiriyoruz.
+                            if (window.ui) {
+                                window.ui.authActions.authorize({
+                                    Bearer: {
+                                        name: 'Bearer',
+                                        schema: { type: 'http', scheme: 'bearer', bearerFormat: 'JWT' },
+                                        value: token
+                                    }
+                                });
+                                console.log('Sistem: Token havada yakalandý ve Swagger yetkilendirildi!');
+                            }
+                        }
+                    });
+                }
+                return response;
+            };
+        });
+    </script>";
     });
 if (app.Environment.IsProduction())
 {
