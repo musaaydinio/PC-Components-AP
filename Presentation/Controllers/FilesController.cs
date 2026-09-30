@@ -7,6 +7,8 @@ namespace Presentation.Controllers
     // Sunucuya dosya yükleme ve sunucudan dosya indirme işlemlerini yönettiğimiz controller sınıfımız.
     [ApiController]
     [Route("api/files")]
+    [Consumes("application/json", "application/json-patch+json",
+    "application/xml")]
     public class FilesController : ControllerBase
     {
         // İstemciden gelen dosyayı sunucudaki Media klasörüne kaydediyoruz.

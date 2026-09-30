@@ -12,6 +12,8 @@ namespace Presentation.Controllers
     [ApiController]
     [Route("api/orders")]
     [Authorize]
+    [Consumes("application/json", "application/json-patch+json",
+    "application/xml")]
     public class OrdersController : ControllerBase
     {
         private readonly StoreDbcontex _context;
