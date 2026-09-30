@@ -190,7 +190,8 @@ namespace E_Ticaret_BitStore.Extensions
                     In = ParameterLocation.Header,
                     Description = "Place to add JWT with Bearer",
                     Name = "Authorization",
-                    Type = SecuritySchemeType.ApiKey,
+                    Type = SecuritySchemeType.Http,
+                    BearerFormat = "JWT",
                     Scheme = "Bearer"
                 });
                 m.AddSecurityRequirement(new OpenApiSecurityRequirement()

@@ -78,11 +78,10 @@ app.ConfigureExceptionHandler(logger);
                 const response = await originalFetch.apply(this, arguments);
                 const url = arguments[0];
                 
-                // Login isteği atıldığında ve 200 OK döndüğünde çalışır
                 if (url && url.toLowerCase().includes('login') && response.status === 200) {
                     response.clone().json().then(data => {
-                        // Yanıtındaki 'accessToken' değerini doğrudan yakalıyoruz
-                        const token = data.accessToken;
+                        // Yanıtındaki accessToken değerini alıyoruz
+                        const token = data.accessToken || data.token;
                         
                         if (token) {
                             const ui = window.ui || window.swaggerUi;
@@ -94,7 +93,7 @@ app.ConfigureExceptionHandler(logger);
                                         value: token
                                     }
                                 });
-                                console.log('✅ Token başarıyla yakalandı ve yetkilendirildi!');
+                                console.log('✅ Token başarıyla yetkilendirildi!');
                             }
                         }
                     }).catch(err => console.error('Token okuma hatası:', err));
