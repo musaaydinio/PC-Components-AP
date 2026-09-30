@@ -27,7 +27,7 @@ namespace E_Ticaret_BitStore.Extensions
     {
         // SQL Server bağlantımızı ve Entity Framework Core'un migration işlemlerini hangi katmanda arayacağını belirtiyoruz.
         public static void ConfigureSqlContex(this IServiceCollection services, IConfiguration configuration)
-        => services.AddDbContext<StoreDbcontex>(options => options.UseSqlServer(configuration
+        => services.AddDbContext<StoreDbcontex>(options => options.UseNpgsql(configuration
                 .GetConnectionString("sqlConnection"),
              b => b.MigrationsAssembly("Repository")));
 
