@@ -51,7 +51,7 @@ namespace Services
             _user.RefreshToken = refreshToken;
 
             if (exp)
-                _user.RefreshTokenExpriyTime = DateTime.Now.AddDays(7);
+                _user.RefreshTokenExpriyTime = DateTime.UtcNow.AddDays(7);
 
             await _userManager.UpdateAsync(_user);
 
