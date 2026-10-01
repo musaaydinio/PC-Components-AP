@@ -76,7 +76,7 @@ Watch the end-to-end system test video demonstrating security layers, cart workf
 ---
 
 ## 🛠️ Tech Stack & Tools
-* **Framework & Language:** .NET 8 / C#
+* **Framework & Language:** .NET 9 / C#
 * **Architecture:** Layered / Clean Architecture
 * **ORM & Database:** Entity Framework Core, PostgreSQL (Supabase)
 * **Security & Auth:** ASP.NET Core Identity, JWT Bearer Tokens, Refresh Tokens, RBAC
