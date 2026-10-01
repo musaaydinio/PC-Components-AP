@@ -7,7 +7,7 @@
 ![Render](https://img.shields.io/badge/Render-Deployment-46E3B7?style=for-the-badge&logo=render)
 ![Swagger](https://img.shields.io/badge/Swagger-OpenAPI-85EA2D?style=for-the-badge&logo=swagger)
 
-> 🌐 **Live Production Swagger UI:** [Click Here to Access Live API](BURAYA_RENDER_SWAGGER_LINKINIZ)
+> 🌐 **Live Production Swagger UI:** [Click Here to Access Live API](https://pc-components-ap.onrender.com/swagger)
 >
 > ⚠️ *Note: Hosted on Render's free cloud instance. The initial request may take ~30 seconds due to server cold-start.*
 
