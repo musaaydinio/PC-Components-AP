@@ -1,45 +1,89 @@
-# 🛒 E-Commerce Core Web API
+# 🛒 PC Hardware E-Commerce RESTful Web API
+
+![Status](https://img.shields.io/badge/Status-LIVE-brightgreen?style=for-the-badge)
+![.NET](https://img.shields.io/badge/.NET-9.0-512BD4?style=for-the-badge&logo=dotnet)
+![ASP.NET Core](https://img.shields.io/badge/ASP.NET_Core-Web_API-512BD4?style=for-the-badge&logo=dotnet)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-Supabase-4169E1?style=for-the-badge&logo=postgresql)
+![Render](https://img.shields.io/badge/Render-Deployment-46E3B7?style=for-the-badge&logo=render)
+![Swagger](https://img.shields.io/badge/Swagger-OpenAPI-85EA2D?style=for-the-badge&logo=swagger)
+
+> 🌐 **Live Production Swagger UI:** [Click Here to Access Live API](BURAYA_RENDER_SWAGGER_LINKINIZ)
+>
+> ⚠️ *Note: Hosted on Render's free cloud instance. The initial request may take ~30 seconds due to server cold-start.*
+
+---
+
+## 🔑 Live Interactive Demo Accounts
+The Swagger UI includes a custom JavaScript injection that **automatically attaches the Bearer JWT Token** upon successful login, making live endpoint testing seamless.
+
+| Role | Username | Password | Scope & Expected Behavior |
+| :--- | :--- | :--- | :--- |
+| **Admin** | `demoadmin` | `Password123*` | Full management access (`POST`, `PUT`, `DELETE`, `PATCH` -> `201 Created` / `200 OK`) |
+| **User** | `demouser` | `Password123*` | Cart & Order simulation (`POST /api/product` -> `403 Forbidden` Access Denied test) |
+
+---
 
 ## 🎯 About the Project
-This project is an e-commerce Web API that I coded completely from scratch and independently, applying the layered architecture disciplines I acquired during my backend training process to my own business logic.
+This project is a production-ready, feature-rich E-Commerce RESTful Web API built from scratch, focusing on PC Hardware components (CPUs, GPUs, RAMs, Motherboards, Monitors, Peripherals). It applies strict layered architecture principles and real-world business logic.
 
-Moving beyond standard training project templates, scenarios such as dynamic cart management, stock tracking, virtual payment workflows, and database transactional integrity were developed in accordance with RESTful principles.
+Moving beyond standard training project templates, scenarios such as role-based access control (RBAC), dynamic cart management, transactional stock deduction, custom header pagination, and database seeding were engineered in accordance with production standards.
+
+## 🚀 Live Deployment & Cloud Architecture (DevOps)
+* **Cloud Hosting & CI/CD:** Deployed on **Render** with automated deployment pipelines from GitHub.
+* **Database Infrastructure:** Powered by **Supabase (PostgreSQL)** for reliable cloud relational data storage.
+* **Automated Migrations & Data Seeding:** The custom `ConfigureAndMigrateDatabase` startup pipeline automatically executes pending EF Core migrations and seeds default Identity roles, demo user accounts, and real-world computer hardware inventory upon application startup.
+
+---
 
 ## 🏗️ Architectural Layers (Clean Architecture)
-The project consists of four main layers, ensuring minimized coupling and maintained code sustainability:
-* **Entities:** Contains database tables (Product, Category, CartItem, Order), DTO records, and Custom Exception classes.
-* **Repositories:** The data access layer where `DbContext` configurations are made and communication with the database (Entity Framework Core) is established.
-* **Services:** The core layer where all Business Logic is executed, cart calculations are performed, and AutoMapper transformations take place.
-* **Presentation:** Houses the Controllers that receive HTTP requests and route them to the Service layer.
+The project consists of four main layers to ensure loose coupling, testability, and maintainability:
+* **Entities:** Contains database domain models (Product, Category, CartItem, Order, ApplicationUser), DTO records, and Custom Exception classes.
+* **Repositories:** Data access layer configured with Entity Framework Core and `DbContext` mappings for PostgreSQL.
+* **Services:** Core Business Logic layer handling cart computations, stock reservation, security claims, and AutoMapper transformations.
+* **Presentation:** REST Controllers receiving HTTP requests, applying Action Filters, and routing requests to the Service layer.
 
-## 🚀 Project Features
+---
 
-### 1. E-Commerce Domain Logic
-* **Token-Based Cart Management:** The system was configured to automatically recognize the requesting user via the JWT token in the Header. Users are able to add products to their carts, update quantities, and the system dynamically calculates the *Grand Total* for the active cart.
-* **Order & Transactional Integrity:** Virtual card validation was implemented during the user checkout process. Upon payment approval, purchased quantities are immediately deducted from the `StockQuantity` in the database, an order record is created, and the user's cart is cleared.
+## 🌟 Core Features & Technical Achievements
 
-### 2. RESTful Standards
-* **Data Shaping:** Instead of downloading entire objects, data is dynamically shaped and returned using `ExpandoObject` based on fields specified via the URL (e.g., `?fields=id,name`).
-* **Pagination:** Pagination was applied to data listings; metadata such as Total Pages and Current Page was directly injected into the HTTP Response Headers (`X-Pagination` Header).
-* **Filtering and Searching:** In price range and name filtering, when no matching record is found, a `200 OK` status with an empty array (`[]`) is returned in compliance with standard practices.
-* **HTTP Method Diversity:** `HEAD` requests for reading headers without a payload and `OPTIONS` requests indicating the methods supported by the API were integrated into the system.
+### 1. Role-Based Security & Authorization (RBAC)
+* **ASP.NET Core Identity & JWT:** Integrated dual-token mechanism (Access & Refresh Tokens) with UTC expiration standards.
+* **Role Isolation:** Administrative endpoints are protected via `[Authorize(Roles = "Admin")]`. Attempting administrative actions with a standard `User` role returns a standard `403 Forbidden` response.
+* **Automated Swagger Authorization:** Custom JavaScript injected into Swagger UI automatically attaches `Authorization: Bearer <token>` upon executing `/api/authentication/login`.
 
-### 3. System Architecture & Security
-* **Global Exception Handling:** Instead of `try-catch` blocks throughout the project, custom exception classes (e.g., `InvalidPriceRangeBadRequestException`) were created; all errors are caught in the Middleware layer and returned in standard JSON formats like 400, 401, and 404.
-* **Rate Limiting:** A limit was imposed on the number of requests from specific IPs (HTTP 429) to protect the system against overloading.
-* **Eager Loading:** Relationships between categories and their products were fetched in a single query using the Entity Framework `Include` function.
-* **Static File Management (File I/O):** Image/file uploading to the server and downloading via the API were implemented.
+### 2. E-Commerce Domain Logic & Data Integrity
+* **Token-Based Cart Management:** Automatically identifies active users via JWT Claims in the HTTP Header to manage carts and compute grand totals dynamically.
+* **Transactional Stock Management:** Checkout process utilizes database transactions. Upon order approval, stock availability is verified, purchased quantities are deducted from `StockQuantity`, the order record is created, and the active cart is cleared atomically.
 
-## 🎥 Postman System Test & Workflow
-You can watch the test video demonstrating how the API's security layers, cart management, stock deduction, and exception handling work end-to-end below:
+### 3. RESTful Standards & Query Features
+* **Data Shaping:** Uses `ExpandoObject` to return only specific fields requested via URL queries (e.g., `?fields=id,name,price`).
+* **Pagination & Custom Headers:** Page metadata (Total Count, Page Size, Current Page) is injected directly into `X-Pagination` HTTP Response Headers.
+* **Filtering, Searching & Sorting:** Price range filtering, category filtering, and product searches return `200 OK` with an empty array `[]` when no matching records exist.
+* **HTTP Method Diversity:** Implements `PATCH` (`JsonPatchDocument`) for partial updates, alongside `HEAD` and `OPTIONS` for API discovery.
 
-👉 **[Watch the System Test and Postman Workflow Video Here](https://lnkd.in/p/d_TfD5wB)**
+### 4. Cross-Cutting Concerns & System Quality
+* **Global Exception Middleware:** Eliminates boilerplate `try-catch` blocks by handling custom exceptions (e.g., `ProductNotFoundException`) at the middleware layer and returning standardized JSON error payloads (400, 401, 403, 404).
+* **Rate Limiting:** Enforces IP-based request throttles (HTTP 429) to protect endpoints against brute-force attacks.
+* **Static File Management (File I/O):** Server-side image uploading and file delivery via API routes.
 
-## 🛠️ Technologies Used
-* .NET Core (C#) & Entity Framework Core & SQL Server
-* Clean Architecture (Entities, Repository, Services, Presentation)
-* JWT (JSON Web Token), Refresh Token, Rate Limiting
-* AutoMapper, Custom Exceptions, Eager Loading
+---
 
-## 📈 My Developer Journey
-*Note for technical teams: This project is a reflection of my ability to transform the architectural disciplines I learned during my backend development process into a project built entirely from scratch with my own custom business logic.*
+## 🎥 System Test & Postman Workflow Video
+Watch the end-to-end system test video demonstrating security layers, cart workflows, stock deduction, and exception handling:
+
+👉 **[Watch the System Test & Postman Workflow Video](https://lnkd.in/p/d_TfD5wB)**
+
+---
+
+## 🛠️ Tech Stack & Tools
+* **Framework & Language:** .NET 8 / C#
+* **Architecture:** Layered / Clean Architecture
+* **ORM & Database:** Entity Framework Core, PostgreSQL (Supabase)
+* **Security & Auth:** ASP.NET Core Identity, JWT Bearer Tokens, Refresh Tokens, RBAC
+* **Cloud & Hosting:** Render, Supabase, Automated DB Seeding
+* **Libraries & Tools:** AutoMapper, NewtonsoftJson (PATCH), Swagger UI, Action Filters, Rate Limiting
+
+---
+
+## 📈 Developer Journey
+*This project represents my ability to design, build, and deploy production-grade backend Web API systems independently—from initial schema design and business rules to live cloud deployment with automated DB seeding and interactive documentation.*
