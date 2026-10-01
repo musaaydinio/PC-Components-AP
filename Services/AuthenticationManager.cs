@@ -147,7 +147,7 @@ namespace Services
             {
                 ValidateIssuer = true,
                 ValidateAudience = true,
-                ValidateLifetime = true,
+                ValidateLifetime = false,
                 ValidateIssuerSigningKey = true,
                 ValidIssuer = jwtSetting["validIssuer"],
                 ValidAudience = jwtSetting["validAudience"],
@@ -177,7 +177,7 @@ namespace Services
 
             if (user is null ||
                 user.RefreshToken != tokenDto.RefreshToken ||
-                user.RefreshTokenExpriyTime <= DateTime.Now)
+                user.RefreshTokenExpriyTime <= DateTime.UtcNow)
                 throw new RefreshTokenBadRequestException();
 
                 _user = user;

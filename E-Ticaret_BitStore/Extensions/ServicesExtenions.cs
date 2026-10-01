@@ -17,6 +17,7 @@ using Services;
 using Services.Contracts;
 using Story.EF_Core;
 using System.Text;
+using static System.Net.Mime.MediaTypeNames;
 namespace E_Ticaret_BitStore.Extensions
 {
     // Program.cs dosyasını temiz tutmak için tüm servis kayıt ayarlarımızı bu extension sınıfında yapıyoruz.
@@ -175,7 +176,22 @@ namespace E_Ticaret_BitStore.Extensions
                 {
                     Title = "MuNi Gaming",
                     Version = "V1",
-                    Description = "🔑 **TEST / DEMO GİRİŞ BİLGİLERİ:**\n\n- **UserName:** `demouser` \n- **Password:** `Password123*` \n\n*Aşağıdaki Login kısmından direkt Execute diyerek API'yi yetkilendirebilirsiniz.*",
+                    Description = @"🚀 **DEMO GİRİŞ & YETKİLENDİRME REHBERİ**
+
+                     Sistemde **Rol Tabanlı Yetkilendirme (RBAC)** aktiftir. Test edebilmeniz için 2 farklı rol seviyesinde demo hesap tanımlanmıştır:
+
+                    👑 **1. DEMO ADMİN HESABI (Yönetici):**
+                    - **UserName:** `demoadmin` 
+                    - **Password:** `Password123*`
+                    - **Yetki:** Tüm okuma, ürün ekleme (`POST`), güncelleme (`PUT`) ve silme (`DELETE`) yetkilerine sahiptir.
+
+                    👤 **2. DEMO MÜŞTERİ HESABI (Customer):**
+                    - **UserName:** `demouser` 
+                    - **Password:** `Password123*`
+                    - **Yetki:** Ürünleri inceler, sepete ekler ve sipariş (`Checkout`) verir. Ürün eklemeye/silmeye çalıştığında **403 Forbidden** hatası alır.
+
+                    💡 **Nasıl Test Edilir?**
+                    `POST /api/authentication/login` endpoint'inden hangi kullanıcı bilgisiyle giriş yaparsanız, Token **otomatik olarak** yetkilendirilir.",
                     Contact = new OpenApiContact
                     {
                         Name = "Musa Aydın",
@@ -246,43 +262,70 @@ namespace E_Ticaret_BitStore.Extensions
                 var services = scope.ServiceProvider;
                 var dbContext = services.GetRequiredService<StoreDbcontex>();
 
-                // 1. Veritabanında eksik tablo varsa oluşturur (Bunu zaten yapmıştık)
+                // 1. Veritabanında eksik tablo/migration varsa otomatik uygular
                 await dbContext.Database.MigrateAsync();
 
-                // 2. Identity servislerini çağırıyoruz (Kullanıcı ve Rol yönetimi için)
+                // 2. Identity servislerini çağırıyoruz
                 var userManager = services.GetRequiredService<UserManager<User>>();
                 var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
 
-                // 3. ROL KONTROLÜ: Veritabanında "User" adında bir rol var mı?
-                // Yoksa, hata almamak için önce bu rolü oluşturuyoruz.
+                // 3. ROL KONTROLLERİ: "Admin" ve "User" rollerini kontrol edip yoksa oluşturuyoruz
+                if (!await roleManager.RoleExistsAsync("Admin"))
+                {
+                    await roleManager.CreateAsync(new IdentityRole("Admin"));
+                }
+
                 if (!await roleManager.RoleExistsAsync("User"))
                 {
                     await roleManager.CreateAsync(new IdentityRole("User"));
                 }
 
-                // 4. KULLANICI KONTROLÜ: "demo@test.com" mailine sahip biri var mı?
-                var demoEmail = "demo@test.com";
-                var demoUser = await userManager.FindByEmailAsync(demoEmail);
+                // 4. DEMO ADMİN HESABI (Yönetici Yetkisi)
+                var adminEmail = "admin@test.com";
+                var adminUser = await userManager.FindByEmailAsync(adminEmail);
 
-                // 5. KULLANICI YOKSA OLUŞTUR:
+                if (adminUser == null)
+                {
+                    var admin = new User
+                    {
+                        FirstName = "Demo",
+                        LastName = "Admin",
+                        UserName = "demoadmin",
+                        Email = adminEmail,
+                        PhoneNumber = "05550000001",
+                        EmailConfirmed = true
+                    };
+
+                    var resultAdmin = await userManager.CreateAsync(admin, "Password123*");
+
+                    if (resultAdmin.Succeeded)
+                    {
+                        // Yönetici rolünü atıyoruz
+                        await userManager.AddToRoleAsync(admin, "Admin");
+                    }
+                }
+
+                // 5. DEMO MÜŞTERİ HESABI (Normal User Yetkisi)
+                var userEmail = "demo@test.com";
+                var demoUser = await userManager.FindByEmailAsync(userEmail);
+
                 if (demoUser == null)
                 {
                     var user = new User
                     {
                         FirstName = "Demo",
-                        LastName = "Kullanici",
+                        LastName = "Musteri",
                         UserName = "demouser",
-                        Email = demoEmail,
+                        Email = userEmail,
                         PhoneNumber = "05550000000",
-                        EmailConfirmed = true // Mail onayını baştan true yapıyoruz ki engele takılmasın
+                        EmailConfirmed = true
                     };
 
-                    // Şifreyi şifreleyerek (Hash) veritabanına kaydeder
-                    var result = await userManager.CreateAsync(user, "Password123*");
+                    var resultUser = await userManager.CreateAsync(user, "Password123*");
 
-                    // Başarıyla kaydedildiyse, ona "User" rolünü verir
-                    if (result.Succeeded)
+                    if (resultUser.Succeeded)
                     {
+                        // Müşteri rolünü atıyoruz
                         await userManager.AddToRoleAsync(user, "User");
                     }
                 }

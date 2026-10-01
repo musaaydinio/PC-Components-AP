@@ -66,6 +66,7 @@ namespace Presentation.Controllers
         }
 
         // ValidationFilter doğrulamasından geçen DTO ile yeni ürün ekleyip 201 Created yanıtı dönüyoruz.
+        [Authorize(Roles = "Admin")]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         [HttpPost]
         public async Task<IActionResult> CreateOneProduct([FromBody] ProductDtoForInsertion productDto)
@@ -75,6 +76,7 @@ namespace Presentation.Controllers
         }
 
         // Belirtilen ID'deki ürünü gelen DTO verileriyle tamamen güncelliyoruz.
+        [Authorize(Roles = "Admin")]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         [HttpPut("{id:int}")]
         public async Task<IActionResult> UpdateOneProduct([FromRoute(Name ="id")] int id, [FromBody] ProductDtoForUpdate productDto)
@@ -84,6 +86,7 @@ namespace Presentation.Controllers
             return NoContent();
         }
         // ID bilgisi verilen ürünü veritabanından siliyoruz.
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{id:int}")]
         public async Task<IActionResult> DeleteOneBook([FromRoute(Name ="id")] int id)
         {
@@ -91,6 +94,7 @@ namespace Presentation.Controllers
             return NoContent();
         }
         // JsonPatch kullanarak ürünün sadece belirtilen alanlarını kısmi olarak güncelliyoruz.
+        [Authorize(Roles = "Admin")]
         [HttpPatch("{id:int}")]
         public async Task<IActionResult> PartiallyUpdateOneProduct([FromRoute(Name ="id")]int id,
             [FromBody] JsonPatchDocument<ProductDtoForUpdate> productPatch)
