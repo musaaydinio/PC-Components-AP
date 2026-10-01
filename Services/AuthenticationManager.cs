@@ -151,7 +151,9 @@ namespace Services
                 ValidateIssuerSigningKey = true,
                 ValidIssuer = jwtSetting["validIssuer"],
                 ValidAudience = jwtSetting["validAudience"],
-                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey))
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey)),
+
+                RoleClaimType = System.Security.Claims.ClaimTypes.Role
             };
 
             var tokenHandler = new JwtSecurityTokenHandler();

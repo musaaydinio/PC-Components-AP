@@ -265,69 +265,60 @@ namespace E_Ticaret_BitStore.Extensions
                 // 1. Veritabanında eksik tablo/migration varsa otomatik uygular
                 await dbContext.Database.MigrateAsync();
 
-                // 2. Identity servislerini çağırıyoruz
                 var userManager = services.GetRequiredService<UserManager<User>>();
                 var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
 
-                // 3. ROL KONTROLLERİ: "Admin" ve "User" rollerini kontrol edip yoksa oluşturuyoruz
+                // 2. "Admin" ve "User" rollerini kontrol et, yoksa oluştur
                 if (!await roleManager.RoleExistsAsync("Admin"))
-                {
                     await roleManager.CreateAsync(new IdentityRole("Admin"));
-                }
 
                 if (!await roleManager.RoleExistsAsync("User"))
-                {
                     await roleManager.CreateAsync(new IdentityRole("User"));
-                }
 
-                // 4. DEMO ADMİN HESABI (Yönetici Yetkisi)
-                var adminEmail = "admin@test.com";
-                var adminUser = await userManager.FindByEmailAsync(adminEmail);
+                // ---------------- 3. DEMO ADMİN HESABI ----------------
+                var adminUser = await userManager.FindByEmailAsync("admin@test.com");
 
-                if (adminUser == null)
+                // Kullanıcı veritabanında yoksa sıfırdan oluşturuyoruz
+                if (adminUser is null)
                 {
-                    var admin = new User
+                    adminUser = new User
                     {
                         FirstName = "Demo",
                         LastName = "Admin",
                         UserName = "demoadmin",
-                        Email = adminEmail,
+                        Email = "admin@test.com",
                         PhoneNumber = "05550000001",
                         EmailConfirmed = true
                     };
-
-                    var resultAdmin = await userManager.CreateAsync(admin, "Password123*");
-
-                    if (resultAdmin.Succeeded)
-                    {
-                        // Yönetici rolünü atıyoruz
-                        await userManager.AddToRoleAsync(admin, "Admin");
-                    }
+                    await userManager.CreateAsync(adminUser, "Password123*");
+                }
+              
+                if (!await userManager.IsInRoleAsync(adminUser, "Admin"))
+                {
+                    await userManager.AddToRoleAsync(adminUser, "Admin");
                 }
 
-                // 5. DEMO MÜŞTERİ HESABI (Normal User Yetkisi)
-                var userEmail = "demo@test.com";
-                var demoUser = await userManager.FindByEmailAsync(userEmail);
+                // ---------------- 4. DEMO MÜŞTERİ HESABI ----------------
+                var demoUser = await userManager.FindByEmailAsync("demo@test.com");
 
-                if (demoUser == null)
+                // Kullanıcı veritabanında yoksa sıfırdan oluşturuyoruz
+                if (demoUser is null)
                 {
-                    var user = new User
+                    demoUser = new User
                     {
                         FirstName = "Demo",
                         LastName = "Musteri",
                         UserName = "demouser",
-                        Email = userEmail,
+                        Email = "demo@test.com",
                         PhoneNumber = "05550000000",
                         EmailConfirmed = true
                     };
+                    await userManager.CreateAsync(demoUser, "Password123*");
+                }
 
-                    var resultUser = await userManager.CreateAsync(user, "Password123*");
-
-                    if (resultUser.Succeeded)
-                    {
-                        // Müşteri rolünü atıyoruz
-                        await userManager.AddToRoleAsync(user, "User");
-                    }
+                if (!await userManager.IsInRoleAsync(demoUser, "User"))
+                {
+                    await userManager.AddToRoleAsync(demoUser, "User");
                 }
             }
         }
